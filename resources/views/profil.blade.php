@@ -774,7 +774,7 @@
                 <div class="tiket-card-head">
                     <div class="tiket-head-label">🎟 Informasi Tiket Masuk</div>
                     <div class="tiket-head-title">Pantai Liang<br><em style="font-style:italic;font-weight:300">Hunimua Beach</em></div>
-                    <div class="tiket-head-sub">Desa Liang -· Kab. Maluku Tengah</div>
+                    <div class="tiket-head-sub">Desa Liang · Kab. Maluku Tengah</div>
                 </div>
 
                 <!-- Perforasi -->
