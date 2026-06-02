@@ -350,7 +350,7 @@ body {
     <div class="nav-container">
         <a href="/" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
         <ul class="nav-menu">
-            <li><a href="/#Beranda"    class="nav-link">Beranda</a></li>
+            <li><a href="/#tentang"    class="nav-link">Tentang</a></li>
             <li><a href="/#keunikan"   class="nav-link">Keunikan</a></li>
             <li><a href="/panduan_rute" class="nav-link active">🗺 Panduan Rute</a></li>
             <li><a href="/fasilitas"   class="nav-link">Fasilitas</a></li>
@@ -545,10 +545,21 @@ body {
 <a href="/" class="back-btn">← Kembali ke Beranda</a>
 
 <script>
-    // WhatsApp share — sama persis logika asli
+    // WhatsApp share — pakai link Google Maps yang bisa dibuka siapa saja
     const waBtn = document.getElementById('wa-share');
-    const text  = '🌴 Ayo ke Pantai Liang!\n\nLihat rutenya di sini:\n' + window.location.href;
-    waBtn.href  = 'https://wa.me/?text=' + encodeURIComponent(text);
+
+    const mapsLink = 'https://www.google.com/maps/dir/?api=1&destination=Pantai+Liang+Maluku';
+
+    const text =
+        '🌴 *Ayo ke Pantai Liang, Maluku!*\n\n' +
+        '📍 Desa Liang, Kec. Salahutu, Maluku Tengah\n' +
+        '🛣️ Jarak ±40 km dari Kota Ambon\n' +
+        '⏱️ Waktu tempuh 60–90 menit\n' +
+        '🕗 Buka setiap hari: 08.00 – 18.00 WIT\n\n' +
+        '🗺️ Klik untuk navigasi langsung:\n' +
+        mapsLink;
+
+    waBtn.href = 'https://wa.me/?text=' + encodeURIComponent(text);
 </script>
 
 </body>
