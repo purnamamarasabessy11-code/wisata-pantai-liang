@@ -543,9 +543,99 @@
             font-size: 1rem; font-weight: 300; color: var(--ink);
         }
 
+        /* ══════════════════════════════
+           ULASAN PENGUNJUNG
+        ══════════════════════════════ */
+        .section-ulasan {
+            background: var(--white);
+            padding: 6rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .ulasan-wrap { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+        .ulasan-form {
+            background: var(--sky);
+            border: 1px solid var(--sky-mid);
+            border-radius: 20px;
+            padding: 1.8rem;
+            margin-bottom: 2.2rem;
+        }
+        .ulasan-form-row { display: flex; gap: 0.7rem; margin-bottom: 0.8rem; }
+        .ulasan-input, .ulasan-select, .ulasan-textarea {
+            font-family: 'Nunito Sans', sans-serif;
+            border: 1px solid var(--sand-dark);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            color: var(--ink);
+            background: var(--white);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .ulasan-input:focus, .ulasan-select:focus, .ulasan-textarea:focus { border-color: var(--ocean); }
+        .ulasan-input { flex: 1; }
+        .ulasan-select { flex-shrink: 0; cursor: pointer; }
+        .ulasan-textarea { width: 100%; resize: vertical; margin-bottom: 1rem; font-family: 'Nunito Sans', sans-serif; }
+        .ulasan-submit {
+            border: none; background: var(--ocean); color: white;
+            padding: 0.75rem 2rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+            font-family: 'Nunito Sans', sans-serif;
+            transition: background 0.25s;
+        }
+        .ulasan-submit:hover { background: var(--ocean-dark); }
+        .ulasan-summary {
+            display: flex; align-items: center; gap: 1.4rem;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--ocean) 100%);
+            border-radius: 18px; padding: 1.4rem 1.8rem; margin-bottom: 1.8rem;
+            color: white; position: relative; overflow: hidden;
+        }
+        .ulasan-summary::before {
+            content: '💬'; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+            font-size: 4rem; opacity: 0.15; pointer-events: none;
+        }
+        .ulasan-summary-score { font-family: 'Fraunces', serif; font-size: 2.6rem; font-weight: 300; line-height: 1; }
+        .ulasan-summary-stars { font-size: 0.95rem; letter-spacing: 0.06em; margin-top: 0.25rem; }
+        .ulasan-summary-text { font-size: 0.8rem; color: rgba(255,255,255,0.85); margin-top: 0.3rem; }
+        .ulasan-summary-divider { width: 1px; height: 46px; background: rgba(255,255,255,0.3); }
+
+        .ulasan-list { display: flex; flex-direction: column; gap: 1rem; }
+        .ulasan-item {
+            background: var(--white);
+            border: 1px solid var(--sand-dark);
+            border-radius: 16px;
+            padding: 1.3rem 1.5rem;
+            display: flex; gap: 1rem;
+            transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+            animation: ulasan-pop 0.4s ease;
+        }
+        @keyframes ulasan-pop {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .ulasan-item:hover { box-shadow: 0 10px 30px rgba(26,155,191,0.1); transform: translateY(-2px); border-color: rgba(26,155,191,0.25); }
+        .ulasan-avatar {
+            flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--ocean) 100%);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-size: 1.1rem; color: white;
+            box-shadow: 0 4px 12px rgba(26,155,191,0.25);
+        }
+        .ulasan-body { flex: 1; min-width: 0; }
+        .ulasan-item-head { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; flex-wrap: wrap; }
+        .ulasan-item-nama { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 400; color: var(--ink); }
+        .ulasan-item-rating { color: var(--gold-dark); font-size: 0.85rem; letter-spacing: 0.05em; }
+        .ulasan-item-komentar { font-size: 0.88rem; line-height: 1.7; color: var(--ink-soft); }
+        .ulasan-item-waktu { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.6rem; letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.35rem; }
+        .ulasan-empty, .ulasan-loading {
+            font-size: 0.9rem; color: var(--text-muted); text-align: center;
+            padding: 2rem 1rem; border: 1px dashed var(--sand-dark); border-radius: 16px;
+        }
+        .ulasan-empty span, .ulasan-loading span { display: block; font-size: 1.8rem; margin-bottom: 0.5rem; }
+
         /* ─── RESPONSIVE ─────────────────── */
         @media (max-width: 1024px) {
-            .page-hero,.section-about,.section-keunikan,.section-galeri,.section-tiket { padding-left:3rem; padding-right:3rem; }
+            .page-hero,.section-about,.section-keunikan,.section-galeri,.section-tiket,.section-ulasan { padding-left:3rem; padding-right:3rem; }
             .keunikan-grid { grid-template-columns:repeat(2,1fr); }
             .galeri-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:none; grid-auto-rows:220px; }
             .g1,.g2,.g3,.g4,.g5,.g6,.g7 { grid-column:auto; grid-row:auto; }
@@ -557,12 +647,13 @@
             .page-hero-content { padding:0 1.5rem; }
             .about-grid,.keunikan-grid { grid-template-columns:1fr; }
             .about-visual { height:300px; }
-            .section-about,.section-keunikan,.section-galeri,.section-tiket { padding:4rem 1.5rem; }
+            .section-about,.section-keunikan,.section-galeri,.section-tiket,.section-ulasan { padding:4rem 1.5rem; }
             .galeri-header-row { flex-direction:column; align-items:flex-start; gap:1rem; }
             .galeri-grid { grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:200px; }
             .g1,.g2,.g3,.g4,.g5,.g6,.g7 { grid-column:auto; grid-row:auto; }
             .tiket-layout { grid-template-columns:1fr; }
             .musim-cond-grid { grid-template-columns:1fr 1fr; }
+            .ulasan-form-row { flex-direction: column; }
         }
     </style>
 </head>
@@ -703,7 +794,7 @@
         <div class="galeri-header-row">
             <div>
                 <div class="section-eyebrow">Galeri Foto</div>
-                <h2 class="section-title"><br><em>Eksplorasi Keindahan Pantai Liang Yang Memikat Hati</em></h2>
+                <h2 class="section-title">Momen Indah<br>di <em>Pantai Liang</em></h2>
             </div>
             <div class="galeri-filter">
                 <button class="filter-btn active" data-filter="semua">🌴 Semua</button>
@@ -882,6 +973,47 @@
     </svg>
 </section>
 
+<!-- ══════════════════════════════════════════════
+     SECTION ULASAN PENGUNJUNG
+══════════════════════════════════════════════ -->
+<section class="section-ulasan" id="ulasan">
+    <div class="ulasan-wrap reveal">
+        <div class="section-eyebrow">Suara Pengunjung</div>
+        <h2 class="section-title">Ulasan & <em>Pengalaman</em><br>Wisatawan</h2>
+
+        <!-- Ringkasan Rating -->
+        <div class="ulasan-summary" id="ulasan-summary" style="display:none">
+            <div>
+                <div class="ulasan-summary-score" id="us-score">0.0</div>
+                <div class="ulasan-summary-stars" id="us-stars">⭐⭐⭐⭐⭐</div>
+            </div>
+            <div class="ulasan-summary-divider"></div>
+            <div class="ulasan-summary-text" id="us-text">Berdasarkan 0 ulasan pengunjung</div>
+        </div>
+
+        <!-- Form Ulasan -->
+        <div class="ulasan-form">
+            <div class="ulasan-form-row">
+                <input id="ul-nama" type="text" class="ulasan-input" placeholder="Nama Anda" maxlength="40">
+                <select id="ul-rating" class="ulasan-select">
+                    <option value="5">⭐⭐⭐⭐⭐ Sangat Baik</option>
+                    <option value="4">⭐⭐⭐⭐ Baik</option>
+                    <option value="3">⭐⭐⭐ Cukup</option>
+                    <option value="2">⭐⭐ Kurang</option>
+                    <option value="1">⭐ Buruk</option>
+                </select>
+            </div>
+            <textarea id="ul-komentar" class="ulasan-textarea" rows="3" maxlength="400" placeholder="Bagikan pengalaman Anda di Pantai Liang..."></textarea>
+            <button class="ulasan-submit" onclick="kirimUlasan()">Kirim Ulasan</button>
+        </div>
+
+        <!-- Daftar Ulasan -->
+        <div class="ulasan-list" id="daftar-ulasan">
+            <p class="ulasan-loading"><span>🌊</span>Memuat ulasan...</p>
+        </div>
+    </div>
+</section>
+
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="handleLbClick(event)">
     <button class="lb-close" onclick="closeLightbox()">✕</button>
@@ -892,6 +1024,94 @@
         <div class="lb-caption" id="lb-caption"></div>
     </div>
 </div>
+
+<script>
+    /* ════════════════════════════════════════════════════════
+       SISTEM ULASAN — tersimpan otomatis di perangkat pengunjung
+       (localStorage), tanpa setup, tanpa admin, langsung jalan.
+       Catatan: ulasan tersimpan per-browser/perangkat.
+    ════════════════════════════════════════════════════════ */
+    const ULASAN_KEY = 'ulasan_pantai_liang';
+
+    function getUlasan() {
+        try {
+            return JSON.parse(localStorage.getItem(ULASAN_KEY)) || [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveUlasan(items) {
+        localStorage.setItem(ULASAN_KEY, JSON.stringify(items));
+    }
+
+    function escapeHtmlUlasan(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function kirimUlasan() {
+        const namaEl = document.getElementById('ul-nama');
+        const komentarEl = document.getElementById('ul-komentar');
+        const ratingEl = document.getElementById('ul-rating');
+
+        const nama = namaEl.value.trim();
+        const komentar = komentarEl.value.trim();
+        const rating = parseInt(ratingEl.value);
+
+        if (!nama || !komentar) {
+            alert('Mohon isi nama dan ulasan Anda.');
+            return;
+        }
+
+        const items = getUlasan();
+        items.unshift({ nama, rating, komentar, waktu: Date.now() });
+        saveUlasan(items);
+        renderUlasanList(items);
+
+        namaEl.value = '';
+        komentarEl.value = '';
+        ratingEl.value = '5';
+    }
+
+    function renderUlasanList(items) {
+        const container = document.getElementById('daftar-ulasan');
+        const summary = document.getElementById('ulasan-summary');
+
+        if (!items || items.length === 0) {
+            container.innerHTML = '<p class="ulasan-empty"><span>🐚</span>Belum ada ulasan. Jadilah yang pertama membagikan pengalaman Anda!</p>';
+            summary.style.display = 'none';
+            return;
+        }
+
+        const avg = items.reduce((sum, u) => sum + (u.rating || 5), 0) / items.length;
+        const rounded = Math.round(avg);
+        document.getElementById('us-score').textContent = avg.toFixed(1);
+        document.getElementById('us-stars').textContent = '⭐'.repeat(Math.max(1, Math.min(5, rounded))) + '☆'.repeat(5 - Math.max(1, Math.min(5, rounded)));
+        document.getElementById('us-text').textContent = `Berdasarkan ${items.length} ulasan pengunjung`;
+        summary.style.display = 'flex';
+
+        container.innerHTML = items.map(u => {
+            const initial = (u.nama || '?').trim().charAt(0).toUpperCase();
+            const r = Math.max(1, Math.min(5, u.rating || 5));
+            return `
+            <div class="ulasan-item">
+                <div class="ulasan-avatar">${initial}</div>
+                <div class="ulasan-body">
+                    <div class="ulasan-item-head">
+                        <span class="ulasan-item-nama">${escapeHtmlUlasan(u.nama)}</span>
+                        <span class="ulasan-item-rating">${'⭐'.repeat(r)}${'☆'.repeat(5 - r)}</span>
+                    </div>
+                    <p class="ulasan-item-komentar">${escapeHtmlUlasan(u.komentar)}</p>
+                    <div class="ulasan-item-waktu">🕒 ${new Date(u.waktu).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}</div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    renderUlasanList(getUlasan());
+</script>
 
 <script>
     /* Scroll Reveal */
