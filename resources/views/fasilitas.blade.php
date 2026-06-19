@@ -298,7 +298,7 @@ body {
             <li><a href="/#Beranda"    class="nav-link">Beranda</a></li>
             <li><a href="/#keunikan"   class="nav-link">Keunikan</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
-            <li><a href="/fasilitas"   class="nav-link active">Fasilitas</a></li>
+            <li><a href="{{ route('fasilitas') }}" class="nav-link active">Fasilitas</a></li>
             <li><a href="/#galeri"     class="nav-link">Galeri</a></li>
         </ul>
     </div>
@@ -332,22 +332,22 @@ body {
 <!-- MAIN -->
 <div class="main">
 
-    <!-- Stats -->
+    <!-- Stats (dinamis dari controller) -->
     <div class="stats-row">
         <div class="stat-chip">
-            <div class="stat-num">2</div>
+            <div class="stat-num">{{ $stats['gratis'] }}</div>
             <div class="stat-label">Fasilitas Gratis</div>
         </div>
         <div class="stat-chip">
-            <div class="stat-num">6</div>
+            <div class="stat-num">{{ $stats['bayar'] }}</div>
             <div class="stat-label">Fasilitas Berbayar</div>
         </div>
         <div class="stat-chip">
-            <div class="stat-num">3</div>
+            <div class="stat-num">{{ $stats['wahana'] }}</div>
             <div class="stat-label">Wahana Seru</div>
         </div>
         <div class="stat-chip">
-            <div class="stat-num">11</div>
+            <div class="stat-num">{{ $stats['total'] }}</div>
             <div class="stat-label">Total Layanan</div>
         </div>
     </div>
@@ -370,101 +370,31 @@ body {
             <div class="sec-eyebrow" id="sEyebrow">Semua Layanan</div>
             <h2 class="sec-title" id="sTitle">Fasilitas & <em>Wahana</em></h2>
         </div>
-        <div class="sec-count" id="sCount">11</div>
+        <div class="sec-count" id="sCount">{{ $stats['total'] }}</div>
     </div>
 
-    <!-- Cards -->
+    <!-- Cards (looping dari database) -->
     <div class="grid" id="cardGrid">
 
-        <!-- GRATIS -->
-        <div class="card type-gratis" data-type="gratis">
-            <div class="card-icon">🅿️</div>
-            <div class="card-badge">✅ Gratis</div>
-            <div class="card-title">Parkir</div>
-            <div class="card-desc">Area parkir luas untuk motor dan mobil.</div>
-        </div>
+        @forelse($fasilitas as $item)
+            <div class="card type-{{ $item->tipe }}" data-type="{{ $item->tipe }}">
+                <div class="card-icon">{{ $item->icon }}</div>
+                <div class="card-badge">{{ $item->badge_label }}</div>
+                <div class="card-title">{{ $item->nama }}</div>
+                <div class="card-desc">{{ $item->deskripsi }}</div>
+                @if($item->harga)
+                    <div class="card-price">
+                        {{ $item->harga_format }} <small>{{ $item->satuan_harga }}</small>
+                    </div>
+                @endif
+            </div>
+        @empty
+            <p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">
+                Belum ada data fasilitas.
+            </p>
+        @endforelse
 
-        <div class="card type-gratis" data-type="gratis">
-            <div class="card-icon">🕌</div>
-            <div class="card-badge">✅ Gratis</div>
-            <div class="card-title">Musholah</div>
-            <div class="card-desc">Tempat ibadah yang bersih dan nyaman.</div>
-        </div>
-
-        <!-- BERBAYAR -->
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">🍽️</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Warung Makan</div>
-            <div class="card-desc">Rujak buah, kelapa muda, mie, dan camilan lainnya.</div>
-        </div>
-
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">🚻</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Toilet</div>
-            <div class="card-desc">Toilet umum tersedia di area pantai.</div>
-            <div class="card-price">Rp 3.000 <small>/ pemakaian</small></div>
-        </div>
-
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">🏠</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Rumah Adat</div>
-            <div class="card-desc">Sewa rumah adat khas Maluku untuk bersantai bersama keluarga.</div>
-            <div class="card-price">Rp 250.000 <small>/ hari</small></div>
-        </div>
-
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">🟦</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Tarpal</div>
-            <div class="card-desc">Alas duduk santai di tepi pantai.</div>
-            <div class="card-price">Rp 30.000 <small>/ hari</small></div>
-        </div>
-
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">🛟</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Bantal Renang</div>
-            <div class="card-desc">Pelampung bantal untuk anak-anak dan dewasa.</div>
-            <div class="card-price">Rp 5.000 <small>/ hari</small></div>
-        </div>
-
-        <div class="card type-bayar" data-type="bayar">
-            <div class="card-icon">💧</div>
-            <div class="card-badge">💳 Berbayar</div>
-            <div class="card-title">Air Tawar</div>
-            <div class="card-desc">Air tawar untuk bilas setelah berenang.</div>
-            <div class="card-price">Rp 5.000 <small>/ jerigen</small></div>
-        </div>
-
-        <!-- WAHANA -->
-        <div class="card type-wahana" data-type="wahana">
-            <div class="card-icon">🍌</div>
-            <div class="card-badge">🎡 Wahana</div>
-            <div class="card-title">Banana Boat</div>
-            <div class="card-desc">Sensasi seru ditarik perahu dengan pelampung pisang.</div>
-            <div class="card-price">Rp 150.000 <small>/ 5 orang</small></div>
-        </div>
-
-        <div class="card type-wahana" data-type="wahana">
-            <div class="card-icon">🚤</div>
-            <div class="card-badge">🎡 Wahana</div>
-            <div class="card-title">Perahu</div>
-            <div class="card-desc">Jelajahi laut Pantai Liang dengan perahu tradisional.</div>
-            <div class="card-price">Rp 100.000 <small>/ 1 jam</small></div>
-        </div>
-
-        <div class="card type-wahana" data-type="wahana">
-            <div class="card-icon">🎠</div>
-            <div class="card-badge">🎡 Wahana</div>
-            <div class="card-title">Taman Bermain</div>
-            <div class="card-desc">Area bermain anak yang menyenangkan di tepi pantai.</div>
-            <div class="card-price">Rp 5.000 <small>/ hari</small></div>
-        </div>
-
-        <!-- Empty state -->
+        <!-- Empty state untuk hasil filter JS -->
         <div class="empty-state" id="emptyState">
             <div style="font-size:3rem;margin-bottom:1rem">🏖️</div>
             <p style="font-size:1rem;color:var(--text-muted)">Tidak ada fasilitas ditemukan.</p>
@@ -478,10 +408,10 @@ body {
 
 <script>
 const titleMap = {
-    all:    { ey:'Semua Layanan',       t:'Fasilitas & <em>Wahana</em>', n:11 },
-    gratis: { ey:'Fasilitas Gratis',    t:'<em>Gratis</em> Untukmu',     n:2  },
-    bayar:  { ey:'Fasilitas Berbayar',  t:'Layanan <em>Berbayar</em>',   n:6  },
-    wahana: { ey:'Wahana Seru',         t:'Wahana & <em>Aktivitas</em>', n:3  },
+    all:    { ey:'Semua Layanan',       t:'Fasilitas & <em>Wahana</em>', n:{{ $stats['total'] }} },
+    gratis: { ey:'Fasilitas Gratis',    t:'<em>Gratis</em> Untukmu',     n:{{ $stats['gratis'] }} },
+    bayar:  { ey:'Fasilitas Berbayar',  t:'Layanan <em>Berbayar</em>',   n:{{ $stats['bayar'] }} },
+    wahana: { ey:'Wahana Seru',         t:'Wahana & <em>Aktivitas</em>', n:{{ $stats['wahana'] }} },
 };
 
 function filterCard(type, btn) {

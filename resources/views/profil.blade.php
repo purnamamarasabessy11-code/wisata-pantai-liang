@@ -271,14 +271,13 @@
         .filter-btn:hover { border-color:var(--ocean); color:var(--ocean); background:var(--sky); }
         .filter-btn.active { border-color:var(--ocean); color:var(--ocean); background:var(--sky); }
 
+        /* Grid seragam — semua kotak ukuran sama, di-looping otomatis dari database */
         .galeri-grid {
-            display:grid;
-            grid-template-columns:repeat(12,1fr);
-            grid-template-rows:210px 210px 210px;
-            grid-auto-rows:210px;
-            gap:0.8rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.8rem;
         }
-        .g-item { overflow:hidden; border-radius:14px; position:relative; cursor:pointer; }
+        .g-item { overflow:hidden; border-radius:14px; position:relative; cursor:pointer; aspect-ratio: 1 / 1; }
         .g-item img { width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s ease,filter 0.4s ease; filter:brightness(0.88); }
         .g-item:hover img { transform:scale(1.06); filter:brightness(1) saturate(1.15); }
         .g-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(12,60,90,0.75) 0%,transparent 55%); opacity:0; transition:opacity 0.3s; display:flex; flex-direction:column; justify-content:flex-end; padding:1rem 1.2rem; }
@@ -286,13 +285,6 @@
         .g-tag { font-size:0.64rem; letter-spacing:0.14em; text-transform:uppercase; color:#a8eae7; margin-bottom:0.2rem; font-weight:700; }
         .g-caption { font-size:0.82rem; color:white; line-height:1.3; }
         .g-item.filter-hidden { display:none; }
-        .g1 { grid-column:1/6;   grid-row:1/3; }
-        .g2 { grid-column:6/9;   grid-row:1/2; }
-        .g3 { grid-column:9/13;  grid-row:1/2; }
-        .g4 { grid-column:6/10;  grid-row:2/3; }
-        .g5 { grid-column:10/13; grid-row:2/4; }
-        .g6 { grid-column:1/5;   grid-row:3/4; }
-        .g7 { grid-column:5/10;  grid-row:3/4; }
 
         .galeri-footer { text-align:center; margin-top:2.5rem; }
         .btn-outline {
@@ -553,6 +545,26 @@
             overflow: hidden;
         }
         .ulasan-wrap { max-width: 760px; margin: 0 auto; position: relative; z-index: 1; }
+        .ulasan-alert {
+            border-radius: 14px;
+            padding: 0.9rem 1.2rem;
+            font-size: 0.86rem;
+            margin-bottom: 1.4rem;
+        }
+        .ulasan-alert-sukses {
+            background: var(--teal-light);
+            border: 1px solid rgba(45,191,184,0.4);
+            color: var(--ocean-dark);
+        }
+        .ulasan-error {
+            background: #fdeceb;
+            border: 1px solid #f3b9b3;
+            color: #b3261e;
+            border-radius: 12px;
+            padding: 0.6rem 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
         .ulasan-form {
             background: var(--sky);
             border: 1px solid var(--sky-mid);
@@ -637,9 +649,7 @@
         @media (max-width: 1024px) {
             .page-hero,.section-about,.section-keunikan,.section-galeri,.section-tiket,.section-ulasan { padding-left:3rem; padding-right:3rem; }
             .keunikan-grid { grid-template-columns:repeat(2,1fr); }
-            .galeri-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:none; grid-auto-rows:220px; }
-            .g1,.g2,.g3,.g4,.g5,.g6,.g7 { grid-column:auto; grid-row:auto; }
-            .g1 { grid-column:span 2; }
+            .galeri-grid { grid-template-columns:repeat(3,1fr); }
         }
         @media (max-width: 768px) {
             .page-hero { min-height:100svh; }
@@ -649,8 +659,7 @@
             .about-visual { height:300px; }
             .section-about,.section-keunikan,.section-galeri,.section-tiket,.section-ulasan { padding:4rem 1.5rem; }
             .galeri-header-row { flex-direction:column; align-items:flex-start; gap:1rem; }
-            .galeri-grid { grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:200px; }
-            .g1,.g2,.g3,.g4,.g5,.g6,.g7 { grid-column:auto; grid-row:auto; }
+            .galeri-grid { grid-template-columns:repeat(2,1fr); }
             .tiket-layout { grid-template-columns:1fr; }
             .musim-cond-grid { grid-template-columns:1fr 1fr; }
             .ulasan-form-row { flex-direction: column; }
@@ -788,7 +797,14 @@
     </svg>
 </section>
 
-<!-- GALERI -->
+{{--
+    ══════════════════════════════════════════════
+    GALERI — preview 7 foto pertama dari database (tabel galeris),
+    urutan mengikuti kolom 'order'. Tombol "Lihat Semua Foto"
+    mengarah ke halaman /galeri yang menampilkan semua foto.
+    Grid dibuat seragam (kotak sama besar) supaya bisa di-loop
+    otomatis tanpa perlu assign posisi manual per item.
+══════════════════════════════════════════════ --}}
 <section class="section-galeri" id="galeri">
     <div class="galeri-header reveal">
         <div class="galeri-header-row">
@@ -805,34 +821,17 @@
     </div>
 
     <div class="galeri-grid reveal" id="galeriGrid">
-        <div class="g-item g1" data-filter="pantai" data-src="{{ asset('a.jpeg') }}" data-caption="Panorama utama Pantai Liang — gradasi toska yang memesona">
-            <img src="{{ asset('a.jpeg') }}" alt="Panorama Utama">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Panorama Utama</div></div>
-        </div>
-        <div class="g-item g2" data-filter="pantai" data-src="{{ asset('liang2.jpeg') }}" data-caption="Pantai Liang">
-            <img src="{{ asset('liang2.jpeg') }}" alt="Pantai">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Pantai Liang</div></div>
-        </div>
-        <div class="g-item g3" data-filter="pantai" data-src="{{ asset('liang3.jpeg') }}" data-caption="Pantai Liang">
-            <img src="{{ asset('liang3.jpeg') }}" alt="Pantai">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Pantai Liang</div></div>
-        </div>
-        <div class="g-item g4" data-filter="pantai" data-src="{{ asset('c.jpeg') }}" data-caption="Pantai Liang">
-            <img src="{{ asset('c.jpeg') }}" alt="Pantai">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Pantai Liang</div></div>
-        </div>
-        <div class="g-item g5" data-filter="pantai" data-src="{{ asset('s.jpeg') }}" data-caption="Pemandangan Pantai Liang">
-            <img src="{{ asset('s.jpeg') }}" alt="Pemandangan">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Panorama Pantai</div></div>
-        </div>
-        <div class="g-item g6" data-filter="pantai" data-src="{{ asset('b.jpg') }}" data-caption="Air toska jernih yang menjadi ciri khas Pantai Liang">
-            <img src="{{ asset('b.jpg') }}" alt="Air Jernih">
-            <div class="g-overlay"><div class="g-tag">Pantai</div><div class="g-caption">Air Toska Jernih</div></div>
-        </div>
-        <div class="g-item g7" data-filter="perahu" data-src="{{ asset('u.jpeg') }}" data-caption="Pemandangan di lepas pantai Liang">
-            <img src="{{ asset('u.jpeg') }}" alt="Perahu">
-            <div class="g-overlay"><div class="g-tag">Perahu</div><div class="g-caption">Pemandangan Laut</div></div>
-        </div>
+        @foreach ($fotoPreview as $foto)
+            <div class="g-item" data-filter="{{ $foto->category }}"
+                 data-src="{{ $foto->image_url }}"
+                 data-caption="{{ $foto->overlay_caption }}">
+                <img src="{{ $foto->image_url }}" alt="{{ $foto->alt_text }}">
+                <div class="g-overlay">
+                    <div class="g-tag">{{ $foto->category_label }}</div>
+                    <div class="g-caption">{{ $foto->overlay_caption }}</div>
+                </div>
+            </div>
+        @endforeach
     </div>
 
     <div class="galeri-footer reveal">
@@ -973,46 +972,88 @@
     </svg>
 </section>
 
-<!-- ══════════════════════════════════════════════
-     SECTION ULASAN PENGUNJUNG
-══════════════════════════════════════════════ -->
+{{--
+    ══════════════════════════════════════════════
+    SECTION ULASAN PENGUNJUNG — versi database (MySQL)
+    $ulasans dikirim dari ProfilController (sudah terurut terbaru).
+    Tidak ada lagi script localStorage — semua server-rendered.
+    ══════════════════════════════════════════════
+--}}
 <section class="section-ulasan" id="ulasan">
     <div class="ulasan-wrap reveal">
         <div class="section-eyebrow">Suara Pengunjung</div>
         <h2 class="section-title">Ulasan & <em>Pengalaman</em><br>Wisatawan</h2>
 
-        <!-- Ringkasan Rating -->
-        <div class="ulasan-summary" id="ulasan-summary" style="display:none">
-            <div>
-                <div class="ulasan-summary-score" id="us-score">0.0</div>
-                <div class="ulasan-summary-stars" id="us-stars">⭐⭐⭐⭐⭐</div>
+        @if (session('ulasan_sukses'))
+            <div class="ulasan-alert ulasan-alert-sukses">
+                {{ session('ulasan_sukses') }}
             </div>
-            <div class="ulasan-summary-divider"></div>
-            <div class="ulasan-summary-text" id="us-text">Berdasarkan 0 ulasan pengunjung</div>
-        </div>
+        @endif
 
-        <!-- Form Ulasan -->
-        <div class="ulasan-form">
+        {{-- Ringkasan Rating --}}
+        @if ($ulasans->isNotEmpty())
+            @php
+                $rataRating = $ulasans->avg('rating');
+                $bulat      = max(1, min(5, (int) round($rataRating)));
+            @endphp
+            <div class="ulasan-summary" id="ulasan-summary">
+                <div>
+                    <div class="ulasan-summary-score" id="us-score">{{ number_format($rataRating, 1) }}</div>
+                    <div class="ulasan-summary-stars" id="us-stars">{{ str_repeat('⭐', $bulat) . str_repeat('☆', 5 - $bulat) }}</div>
+                </div>
+                <div class="ulasan-summary-divider"></div>
+                <div class="ulasan-summary-text" id="us-text">Berdasarkan {{ $ulasans->count() }} ulasan pengunjung</div>
+            </div>
+        @endif
+
+        {{-- Form Ulasan --}}
+        <form class="ulasan-form" method="POST" action="{{ route('ulasan.store') }}#ulasan">
+            @csrf
+
+            @error('nama')
+                <div class="ulasan-error">{{ $message }}</div>
+            @enderror
+            @error('komentar')
+                <div class="ulasan-error">{{ $message }}</div>
+            @enderror
+
             <div class="ulasan-form-row">
-                <input id="ul-nama" type="text" class="ulasan-input" placeholder="Nama Anda" maxlength="40">
-                <select id="ul-rating" class="ulasan-select">
-                    <option value="5">⭐⭐⭐⭐⭐ Sangat Baik</option>
-                    <option value="4">⭐⭐⭐⭐ Baik</option>
-                    <option value="3">⭐⭐⭐ Cukup</option>
-                    <option value="2">⭐⭐ Kurang</option>
-                    <option value="1">⭐ Buruk</option>
+                <input id="ul-nama" name="nama" type="text" class="ulasan-input"
+                       placeholder="Nama Anda" maxlength="40" value="{{ old('nama') }}" required>
+                <select id="ul-rating" name="rating" class="ulasan-select">
+                    <option value="5" {{ old('rating', 5) == 5 ? 'selected' : '' }}>⭐⭐⭐⭐⭐ Sangat Baik</option>
+                    <option value="4" {{ old('rating') == 4 ? 'selected' : '' }}>⭐⭐⭐⭐ Baik</option>
+                    <option value="3" {{ old('rating') == 3 ? 'selected' : '' }}>⭐⭐⭐ Cukup</option>
+                    <option value="2" {{ old('rating') == 2 ? 'selected' : '' }}>⭐⭐ Kurang</option>
+                    <option value="1" {{ old('rating') == 1 ? 'selected' : '' }}>⭐ Buruk</option>
                 </select>
             </div>
-            <textarea id="ul-komentar" class="ulasan-textarea" rows="3" maxlength="400" placeholder="Bagikan pengalaman Anda di Pantai Liang..."></textarea>
-            <button class="ulasan-submit" onclick="kirimUlasan()">Kirim Ulasan</button>
-        </div>
+            <textarea id="ul-komentar" name="komentar" class="ulasan-textarea" rows="3" maxlength="400"
+                      placeholder="Bagikan pengalaman Anda di Pantai Liang..." required>{{ old('komentar') }}</textarea>
+            <button type="submit" class="ulasan-submit">Kirim Ulasan</button>
+        </form>
 
-        <!-- Daftar Ulasan -->
+        {{-- Daftar Ulasan --}}
         <div class="ulasan-list" id="daftar-ulasan">
-            <p class="ulasan-loading"><span>🌊</span>Memuat ulasan...</p>
+            @forelse ($ulasans as $u)
+                <div class="ulasan-item">
+                    <div class="ulasan-avatar">{{ $u->inisial }}</div>
+                    <div class="ulasan-body">
+                        <div class="ulasan-item-head">
+                            <span class="ulasan-item-nama">{{ $u->nama }}</span>
+                            <span class="ulasan-item-rating">{{ $u->bintang_terisi }}{{ $u->bintang_kosong }}</span>
+                        </div>
+                        <p class="ulasan-item-komentar">{{ $u->komentar }}</p>
+                        <div class="ulasan-item-waktu">🕒 {{ $u->tanggal_indo }}</div>
+                    </div>
+                </div>
+            @empty
+                <p class="ulasan-empty"><span>🐚</span>Belum ada ulasan. Jadilah yang pertama membagikan pengalaman Anda!</p>
+            @endforelse
         </div>
     </div>
 </section>
+
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="handleLbClick(event)">
@@ -1024,94 +1065,6 @@
         <div class="lb-caption" id="lb-caption"></div>
     </div>
 </div>
-
-<script>
-    /* ════════════════════════════════════════════════════════
-       SISTEM ULASAN — tersimpan otomatis di perangkat pengunjung
-       (localStorage), tanpa setup, tanpa admin, langsung jalan.
-       Catatan: ulasan tersimpan per-browser/perangkat.
-    ════════════════════════════════════════════════════════ */
-    const ULASAN_KEY = 'ulasan_pantai_liang';
-
-    function getUlasan() {
-        try {
-            return JSON.parse(localStorage.getItem(ULASAN_KEY)) || [];
-        } catch (e) {
-            return [];
-        }
-    }
-
-    function saveUlasan(items) {
-        localStorage.setItem(ULASAN_KEY, JSON.stringify(items));
-    }
-
-    function escapeHtmlUlasan(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
-    }
-
-    function kirimUlasan() {
-        const namaEl = document.getElementById('ul-nama');
-        const komentarEl = document.getElementById('ul-komentar');
-        const ratingEl = document.getElementById('ul-rating');
-
-        const nama = namaEl.value.trim();
-        const komentar = komentarEl.value.trim();
-        const rating = parseInt(ratingEl.value);
-
-        if (!nama || !komentar) {
-            alert('Mohon isi nama dan ulasan Anda.');
-            return;
-        }
-
-        const items = getUlasan();
-        items.unshift({ nama, rating, komentar, waktu: Date.now() });
-        saveUlasan(items);
-        renderUlasanList(items);
-
-        namaEl.value = '';
-        komentarEl.value = '';
-        ratingEl.value = '5';
-    }
-
-    function renderUlasanList(items) {
-        const container = document.getElementById('daftar-ulasan');
-        const summary = document.getElementById('ulasan-summary');
-
-        if (!items || items.length === 0) {
-            container.innerHTML = '<p class="ulasan-empty"><span>🐚</span>Belum ada ulasan. Jadilah yang pertama membagikan pengalaman Anda!</p>';
-            summary.style.display = 'none';
-            return;
-        }
-
-        const avg = items.reduce((sum, u) => sum + (u.rating || 5), 0) / items.length;
-        const rounded = Math.round(avg);
-        document.getElementById('us-score').textContent = avg.toFixed(1);
-        document.getElementById('us-stars').textContent = '⭐'.repeat(Math.max(1, Math.min(5, rounded))) + '☆'.repeat(5 - Math.max(1, Math.min(5, rounded)));
-        document.getElementById('us-text').textContent = `Berdasarkan ${items.length} ulasan pengunjung`;
-        summary.style.display = 'flex';
-
-        container.innerHTML = items.map(u => {
-            const initial = (u.nama || '?').trim().charAt(0).toUpperCase();
-            const r = Math.max(1, Math.min(5, u.rating || 5));
-            return `
-            <div class="ulasan-item">
-                <div class="ulasan-avatar">${initial}</div>
-                <div class="ulasan-body">
-                    <div class="ulasan-item-head">
-                        <span class="ulasan-item-nama">${escapeHtmlUlasan(u.nama)}</span>
-                        <span class="ulasan-item-rating">${'⭐'.repeat(r)}${'☆'.repeat(5 - r)}</span>
-                    </div>
-                    <p class="ulasan-item-komentar">${escapeHtmlUlasan(u.komentar)}</p>
-                    <div class="ulasan-item-waktu">🕒 ${new Date(u.waktu).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}</div>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    renderUlasanList(getUlasan());
-</script>
 
 <script>
     /* Scroll Reveal */
