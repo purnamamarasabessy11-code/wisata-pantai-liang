@@ -664,6 +664,192 @@
             .musim-cond-grid { grid-template-columns:1fr 1fr; }
             .ulasan-form-row { flex-direction: column; }
         }
+
+        /* ══════════════════════════════
+   TOMBOL SEARCH DI NAVBAR
+══════════════════════════════ */
+.nav-search-btn {
+    background: var(--sky);
+    border: 1.5px solid rgba(26,155,191,0.25);
+    border-radius: 50px;
+    padding: 0.38rem 0.85rem;
+    font-size: 0.88rem;
+    color: var(--ocean);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    display: flex; align-items: center; gap: 0.4rem;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 600;
+}
+.nav-search-btn::after {
+    content: 'Ctrl K';
+    font-size: 0.65rem; color: var(--text-muted);
+    background: var(--white);
+    border: 1px solid var(--sand-dark);
+    border-radius: 4px;
+    padding: 0.05rem 0.35rem;
+    letter-spacing: 0.04em;
+}
+.nav-search-btn:hover {
+    background: rgba(26,155,191,0.12);
+    border-color: var(--ocean);
+    transform: translateY(-1px);
+}
+@media (max-width: 768px) {
+    .nav-search-btn::after { display: none; }
+}
+
+/* ══════════════════════════════
+   BACKDROP
+══════════════════════════════ */
+.search-backdrop {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(10, 25, 40, 0.55);
+    backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.search-backdrop.open { opacity: 1; pointer-events: all; }
+
+/* ══════════════════════════════
+   MODAL
+══════════════════════════════ */
+.search-modal {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 2001;
+    display: flex; justify-content: center;
+    padding: 5vh 1rem 0;
+    pointer-events: none;
+    transform: translateY(-18px);
+    opacity: 0;
+    transition: transform 0.28s cubic-bezier(.22,1,.36,1), opacity 0.22s ease;
+}
+.search-modal.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+
+.search-modal-inner {
+    background: var(--white);
+    border: 1px solid var(--sky-mid);
+    border-radius: 22px;
+    width: 100%; max-width: 600px;
+    box-shadow: 0 32px 80px rgba(10,40,60,0.22), 0 0 0 1px rgba(26,155,191,0.08);
+    overflow: hidden;
+}
+
+/* ── Input bar ── */
+.search-input-wrap {
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 1.1rem 1.4rem;
+    border-bottom: 1px solid var(--sky-mid);
+}
+.search-ico { font-size: 1.05rem; flex-shrink: 0; }
+.search-input {
+    flex: 1; border: none; outline: none;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 1rem; color: var(--ink);
+    background: transparent;
+    caret-color: var(--ocean);
+}
+.search-input::placeholder { color: var(--text-muted); }
+.search-esc-btn {
+    background: var(--sky); border: 1px solid var(--sky-mid);
+    border-radius: 6px; padding: 0.18rem 0.55rem;
+    font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
+    cursor: pointer; font-family: 'Nunito Sans', sans-serif;
+    transition: all 0.2s; flex-shrink: 0;
+}
+.search-esc-btn:hover { background: var(--sand); color: var(--ocean); }
+
+/* ── Area hasil ── */
+.search-results { min-height: 120px; max-height: 60vh; overflow-y: auto; }
+
+/* Hint (shortcut chips) */
+.search-hint { padding: 1.4rem 1.4rem 1rem; }
+.search-hint-label {
+    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 700; margin-bottom: 0.9rem;
+}
+.search-hint-grid { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.sh-chip {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.35rem 0.85rem;
+    background: var(--sky); border: 1px solid var(--sky-mid);
+    border-radius: 50px; font-size: 0.78rem;
+    color: var(--ocean-dark); text-decoration: none; font-weight: 600;
+    transition: all 0.18s;
+}
+.sh-chip:hover { background: rgba(26,155,191,0.12); border-color: var(--ocean); transform: translateY(-1px); }
+
+/* Daftar hasil */
+.search-list { list-style: none; padding: 0.5rem 0.6rem 0.7rem; margin: 0; }
+.search-list li a {
+    display: flex; align-items: center; gap: 0.9rem;
+    padding: 0.75rem 0.8rem; border-radius: 12px;
+    text-decoration: none; color: inherit;
+    transition: background 0.18s; outline: none;
+    border: 1.5px solid transparent;
+}
+.search-list li a:hover,
+.search-list li a:focus,
+.search-list li.active a {
+    background: var(--sky);
+    border-color: rgba(26,155,191,0.2);
+}
+.sr-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: var(--sky); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; border: 1px solid var(--sky-mid);
+}
+.sr-body { flex: 1; min-width: 0; }
+.sr-cat {
+    font-size: 0.62rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ocean);
+    font-weight: 700; margin-bottom: 0.1rem;
+}
+.sr-title {
+    font-family: 'Fraunces', serif; font-size: 0.97rem;
+    font-weight: 400; color: var(--ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sr-desc {
+    font-size: 0.78rem; color: var(--text-muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sr-arrow { color: var(--text-muted); font-size: 0.9rem; flex-shrink: 0; }
+
+/* Kosong & loading */
+.search-empty {
+    padding: 2rem 1.4rem; text-align: center;
+    font-size: 0.88rem; color: var(--text-muted);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.search-empty span { font-size: 2rem; }
+.search-loading {
+    display: flex; justify-content: center; align-items: center; padding: 2rem;
+}
+.sl-spinner {
+    width: 24px; height: 24px;
+    border: 2.5px solid var(--sky-mid);
+    border-top-color: var(--ocean);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Footer keyboard hint */
+.search-footer {
+    display: flex; gap: 1.2rem; justify-content: flex-end;
+    padding: 0.6rem 1.4rem;
+    border-top: 1px solid var(--sky-mid);
+    background: var(--sky);
+    font-size: 0.68rem; color: var(--text-muted);
+}
+kbd {
+    background: var(--white); border: 1px solid var(--sand-dark);
+    border-radius: 4px; padding: 0.1rem 0.38rem;
+    font-size: 0.65rem; font-family: inherit; color: var(--ink-soft);
+}
+@media (max-width: 600px) { .search-footer { display: none; } }
     </style>
 </head>
 <body>
@@ -672,6 +858,7 @@
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
+        <button class="nav-search-btn" id="navSearchBtn" type="button" title="Cari (Ctrl+K)">🔍 <span>Cari</span></button>
         <ul class="nav-menu">
             <li><a href="#tentang"      class="nav-link">Beranda</a></li>
             <li><a href="#keunikan"     class="nav-link">Keunikan</a></li>
@@ -681,6 +868,54 @@
         </ul>
     </div>
 </nav>
+
+<!-- ══════════════════════════════════════════════
+     MODAL PENCARIAN GLOBAL (gaya command palette)
+══════════════════════════════════════════════════ -->
+<div class="search-backdrop" id="searchBackdrop"></div>
+<div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="Pencarian">
+    <div class="search-modal-inner">
+        <div class="search-input-wrap">
+            <span class="search-ico">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Cari fasilitas, rute, galeri, ulasan..." autocomplete="off">
+            <button type="button" class="search-esc-btn" id="searchClose">ESC</button>
+        </div>
+
+        <div class="search-results">
+            <!-- Hint kata kunci populer — tampil saat input kosong -->
+            <div class="search-hint" id="searchHint">
+                <div class="search-hint-label">Pencarian Populer</div>
+                <div class="search-hint-grid">
+                    <button type="button" class="sh-chip" data-q="parkir">🅿️ Parkir</button>
+                    <button type="button" class="sh-chip" data-q="rute">🗺️ Rute</button>
+                    <button type="button" class="sh-chip" data-q="toilet">🚻 Toilet</button>
+                    <button type="button" class="sh-chip" data-q="gazebo">⛱️ Gazebo</button>
+                    <button type="button" class="sh-chip" data-q="parkir motor">🏍️ Parkir Motor</button>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="search-loading" id="searchLoading" style="display:none">
+                <div class="sl-spinner"></div>
+            </div>
+
+            <!-- Daftar hasil -->
+            <ul class="search-list" id="searchList" style="display:none"></ul>
+
+            <!-- Kosong -->
+            <div class="search-empty" id="searchEmpty" style="display:none">
+                <span>🔎</span>
+                Tidak ada hasil untuk <strong id="emptyQ"></strong>
+            </div>
+        </div>
+
+        <div class="search-footer">
+            <span><kbd>↑</kbd><kbd>↓</kbd> pilih</span>
+            <span><kbd>Enter</kbd> buka</span>
+            <span><kbd>Esc</kbd> tutup</span>
+        </div>
+    </div>
+</div>
 
 <!-- HERO -->
 <section class="page-hero">
@@ -1147,7 +1382,172 @@
     setInterval(getWeather, 600000);
 
     rebuildPhotos();
-</script>
 
+/* ══════════════════════════════════════════════════════════════
+   FITUR PENCARIAN GLOBAL — modal gaya command palette (Ctrl+K)
+══════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+    const AJAX_URL = '{{ route("cari.ajax") }}';
+    const CARI_URL = '{{ route("cari") }}';
+
+    const $btn      = document.getElementById('navSearchBtn');
+    const $backdrop = document.getElementById('searchBackdrop');
+    const $modal    = document.getElementById('searchModal');
+    const $input    = document.getElementById('searchInput');
+    const $close    = document.getElementById('searchClose');
+    const $hint     = document.getElementById('searchHint');
+    const $loading  = document.getElementById('searchLoading');
+    const $list     = document.getElementById('searchList');
+    const $empty    = document.getElementById('searchEmpty');
+    const $emptyQ   = document.getElementById('emptyQ');
+
+    if (!$btn || !$modal) {
+        console.warn('Elemen pencarian tidak ditemukan pada halaman ini.');
+        return;
+    }
+
+    let debTimer  = null;
+    let activeIdx = -1;
+    let items     = [];
+
+    function openModal() {
+        $backdrop.classList.add('open');
+        $modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => $input.focus(), 60);
+    }
+
+    function closeModal() {
+        $backdrop.classList.remove('open');
+        $modal.classList.remove('open');
+        document.body.style.overflow = '';
+        $input.value = '';
+        resetResults();
+    }
+
+    function resetResults() {
+        activeIdx = -1;
+        items = [];
+        $list.style.display    = 'none';
+        $list.innerHTML        = '';
+        $empty.style.display   = 'none';
+        $loading.style.display = 'none';
+        $hint.style.display    = 'block';
+    }
+
+    function showLoading() {
+        $hint.style.display    = 'none';
+        $empty.style.display   = 'none';
+        $list.style.display    = 'none';
+        $loading.style.display = 'flex';
+    }
+
+    function renderResults(hasil, q) {
+        $loading.style.display = 'none';
+        activeIdx = -1;
+
+        if (!hasil || hasil.length === 0) {
+            $list.style.display  = 'none';
+            $empty.style.display = 'flex';
+            $emptyQ.textContent  = '"' + q + '"';
+            return;
+        }
+
+        $empty.style.display = 'none';
+        $list.innerHTML = hasil.map(h => `
+            <li>
+                <a href="${h.url}">
+                    <span class="sr-icon">${h.ikon}</span>
+                    <span class="sr-body">
+                        <span class="sr-cat">${h.kategori}</span>
+                        <span class="sr-title">${h.judul}</span>
+                        ${h.deskripsi ? `<span class="sr-desc">${h.deskripsi}</span>` : ''}
+                    </span>
+                    <span class="sr-arrow">→</span>
+                </a>
+            </li>
+        `).join('');
+        $list.style.display = 'block';
+        items = Array.from($list.querySelectorAll('li'));
+    }
+
+    async function doSearch(q) {
+        if (q.length < 2) { resetResults(); return; }
+        showLoading();
+        try {
+            const res  = await fetch(`${AJAX_URL}?q=${encodeURIComponent(q)}`, {
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await res.json();
+            renderResults(data, q);
+        } catch (err) {
+            $loading.style.display = 'none';
+            $empty.style.display   = 'flex';
+            $emptyQ.textContent    = '"' + q + '"';
+        }
+    }
+
+    function setActive(idx) {
+        items.forEach(li => li.classList.remove('active'));
+        if (idx >= 0 && idx < items.length) {
+            items[idx].classList.add('active');
+            items[idx].querySelector('a').scrollIntoView({ block: 'nearest' });
+        }
+        activeIdx = idx;
+    }
+
+    // Buka modal
+    $btn.addEventListener('click', openModal);
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            openModal();
+        }
+    });
+
+    // Tutup modal
+    $close.addEventListener('click', closeModal);
+    $backdrop.addEventListener('click', closeModal);
+
+    // Input pencarian (debounce)
+    $input.addEventListener('input', () => {
+        clearTimeout(debTimer);
+        const q = $input.value.trim();
+        debTimer = setTimeout(() => doSearch(q), 280);
+    });
+
+    // Klik chip populer
+    document.querySelectorAll('.sh-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            $input.value = chip.dataset.q;
+            doSearch(chip.dataset.q);
+            $input.focus();
+        });
+    });
+
+    // Navigasi keyboard
+    document.addEventListener('keydown', e => {
+        if (!$modal.classList.contains('open')) return;
+
+        if (e.key === 'Escape') { closeModal(); return; }
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (items.length) setActive(Math.min(activeIdx + 1, items.length - 1));
+        }
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (items.length) setActive(Math.max(activeIdx - 1, 0));
+        }
+        if (e.key === 'Enter') {
+            if (activeIdx >= 0 && items[activeIdx]) {
+                items[activeIdx].querySelector('a').click();
+            } else if ($input.value.trim().length >= 2) {
+                window.location.href = `${CARI_URL}?q=${encodeURIComponent($input.value.trim())}`;
+            }
+        }
+    });
+});
+</script>
 </body>
 </html>
