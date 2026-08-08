@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galeri;
 use App\Models\Ulasan;
+use App\Models\Tiket;
 
 class ProfilController extends Controller
 {
@@ -22,10 +23,12 @@ class ProfilController extends Controller
     {
         $ulasans = Ulasan::terbaru()->get();
         $fotoPreview = Galeri::latest()->take(8)->get();
+        $tikets = Tiket::aktif()->urut()->get();
 
         return view('profil', [
             'ulasans' => $ulasans,
             'fotoPreview' => $fotoPreview,
+            'tikets' => $tikets,
         ]);
     }
 }

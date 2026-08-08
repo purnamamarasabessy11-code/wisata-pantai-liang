@@ -1109,34 +1109,21 @@ kbd {
 
                 <!-- Baris harga -->
                 <div class="tiket-card-body">
-                    <div class="tiket-row">
-                        <div class="tiket-row-left">
-                            <div class="tiket-row-icon">👨</div>
-                            <span class="tiket-row-label">Dewasa</span>
+                    @forelse ($tikets as $t)
+                        <div class="tiket-row">
+                            <div class="tiket-row-left">
+                                <div class="tiket-row-icon">{{ $t->icon ?: '🎟' }}</div>
+                                <span class="tiket-row-label">{{ $t->nama }}</span>
+                            </div>
+                            <span class="tiket-row-price">{{ $t->harga_format }}</span>
                         </div>
-                        <span class="tiket-row-price">Rp 10.000</span>
-                    </div>
-                    <div class="tiket-row">
-                        <div class="tiket-row-left">
-                            <div class="tiket-row-icon">🧒</div>
-                            <span class="tiket-row-label">Anak-anak</span>
+                    @empty
+                        <div class="tiket-row">
+                            <div class="tiket-row-left">
+                                <span class="tiket-row-label">Informasi tiket belum tersedia.</span>
+                            </div>
                         </div>
-                        <span class="tiket-row-price">Rp 5.000</span>
-                    </div>
-                    <div class="tiket-row">
-                        <div class="tiket-row-left">
-                            <div class="tiket-row-icon">🏍</div>
-                            <span class="tiket-row-label">Sepeda Motor</span>
-                        </div>
-                        <span class="tiket-row-price">Rp 5.000</span>
-                    </div>
-                    <div class="tiket-row">
-                        <div class="tiket-row-left">
-                            <div class="tiket-row-icon">🚗</div>
-                            <span class="tiket-row-label">Mobil</span>
-                        </div>
-                        <span class="tiket-row-price">Rp 10.000</span>
-                    </div>
+                    @endforelse
                 </div>
 
                 <!-- Footer tiket -->
