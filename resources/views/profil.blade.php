@@ -861,7 +861,6 @@ kbd {
         <button class="nav-search-btn" id="navSearchBtn" type="button" title="Cari (Ctrl+K)">🔍 <span>Cari</span></button>
         <ul class="nav-menu">
             <li><a href="#tentang"      class="nav-link">Beranda</a></li>
-            <li><a href="#keunikan"     class="nav-link">Keunikan</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
             <li><a href="/fasilitas"    class="nav-link">Fasilitas</a></li>
             <li><a href="{{ route('galeri') }}" class="nav-link special">Galeri</a></li>
@@ -1045,7 +1044,7 @@ kbd {
         <div class="galeri-header-row">
             <div>
                 <div class="section-eyebrow">Galeri Foto</div>
-                <h2 class="section-title">Momen Indah<br>di <em>Pantai Liang</em></h2>
+                <h2 class="section-title">Ragam Pesona<br>di <em>Pantai Liang Hunimua</em></h2>
             </div>
             <div class="galeri-filter">
                 <button class="filter-btn active" data-filter="semua">🌴 Semua</button>
