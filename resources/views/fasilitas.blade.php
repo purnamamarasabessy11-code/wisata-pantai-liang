@@ -296,7 +296,6 @@ body {
         <a href="/" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
         <ul class="nav-menu">
             <li><a href="/#Beranda"    class="nav-link">Beranda</a></li>
-            <li><a href="/#keunikan"   class="nav-link">Keunikan</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
             <li><a href="{{ route('fasilitas') }}" class="nav-link active">Fasilitas</a></li>
             <li><a href="/#galeri"     class="nav-link">Galeri</a></li>
