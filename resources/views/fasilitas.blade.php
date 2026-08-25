@@ -336,7 +336,7 @@ body {
             <li><a href="/"class="nav-link">Beranda</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
             <li><a href="{{ route('fasilitas') }}" class="nav-link active">Fasilitas</a></li>
-            <li><a href="/#galeri"     class="nav-link">Galeri</a></li>
+            <li><a href="/#galeri" class="nav-link">Galeri</a></li>
         </ul>
     </div>
 </nav>
