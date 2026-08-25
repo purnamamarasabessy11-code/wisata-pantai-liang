@@ -3,6 +3,35 @@
 @section('title', $tiket->exists ? 'Ubah Tiket' : 'Tambah Tiket')
 
 @section('content')
+    <!-- Tambahan CSS khusus mobile (tidak akan memengaruhi desktop) -->
+    <style>
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .page-header h1 {
+                font-size: 1.4rem; /* Mengecilkan ukuran font judul di layar kecil */
+                line-height: 1.3;
+            }
+            .btn-primary {
+                width: 100%; /* Tombol simpan menjadi lebar penuh agar mudah ditekan jari */
+                justify-content: center;
+                padding: 0.8rem;
+                font-size: 1rem;
+                margin-top: 0.5rem;
+            }
+            .checkbox-row {
+                align-items: flex-start; /* Mencegah checkbox tertekan jika teks panjang/turun baris */
+            }
+            .checkbox-row label {
+                line-height: 1.5;
+                margin-top: 2px !important;
+            }
+        }
+    </style>
+
     <div class="page-header">
         <div>
             <h1>{{ $tiket->exists ? 'Ubah Informasi Tiket' : 'Tambah Informasi Tiket' }}</h1>

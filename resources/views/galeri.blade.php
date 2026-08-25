@@ -181,7 +181,9 @@
 <nav class="nav">
     <a href="{{ route('profil') }}" class="nav-brand">🏖 Pantai <strong>Liang</strong></a>
     <div class="nav-links">
-        <a href="{{ route('profil') }}">Beranda</a>
+         <li><a href="/" class="nav-link">Beranda</a></li>
+            <li><a href="/panduan_rute" class="nav-link active">🗺 Panduan Rute</a></li>
+            <li><a href="/fasilitas"   class="nav-link">Fasilitas</a></li>
         <a href="{{ route('galeri') }}" class="active">Galeri</a>
     </div>
 </nav>

@@ -78,12 +78,6 @@ body {
 .nav-link:hover { background: var(--sky); color: var(--ocean); }
 .nav-link.active { background: var(--sky); color: var(--ocean); font-weight: 600; }
 
-@media (max-width: 768px) {
-    .navbar { padding: 0 1.5rem; }
-    .nav-menu { gap: 0.1rem; }
-    .nav-link { font-size: 0.72rem; padding: 0.35rem 0.55rem; }
-}
-
 /* ── HERO ── */
 .hero {
     position: relative; height: 360px;
@@ -137,18 +131,11 @@ body {
 .hero-title em { font-style: italic; color: #a8eae7; }
 .hero-sub { margin-top: 0.6rem; font-size: 0.9rem; color: rgba(255,255,255,0.65); font-weight: 300; }
 
-@media (max-width: 768px) {
-    .hero { height: 300px; }
-    .hero-badges { top: 78px; left: 1.5rem; }
-    .hero-content { padding: 0 1.5rem 2.5rem; }
-}
-
 /* ── MAIN ── */
 .main {
     max-width: 1200px; margin: 0 auto;
     padding: 3.5rem 5rem 7rem;
 }
-@media (max-width: 768px) { .main { padding: 2.5rem 1.5rem 6rem; } }
 
 /* ── INFO CHIPS ROW ── */
 .info-row {
@@ -169,7 +156,6 @@ body {
     align-items: center; justify-content: center; font-size: 1.3rem;
     flex-shrink: 0;
 }
-.info-chip-text {}
 .info-chip-val {
     font-family: 'Fraunces', serif;
     font-size: 1.1rem; font-weight: 400; color: var(--ink); line-height: 1.1;
@@ -185,9 +171,6 @@ body {
     grid-template-columns: 1fr 360px;
     gap: 2rem;
     align-items: flex-start;
-}
-@media (max-width: 900px) {
-    .rute-layout { grid-template-columns: 1fr; }
 }
 
 /* ── MAP CARD ── */
@@ -217,13 +200,9 @@ body {
     text-decoration: none; transition: 0.25s;
     white-space: nowrap;
 }
-.map-btn-nav {
-    background: var(--ocean); color: white;
-}
+.map-btn-nav { background: var(--ocean); color: white; }
 .map-btn-nav:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(26,155,191,0.35); }
-.map-btn-wa {
-    background: #25d366; color: white;
-}
+.map-btn-wa { background: #25d366; color: white; }
 .map-btn-wa:hover { background: #1ebe5d; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(37,211,102,0.35); }
 
 /* ── SIDEBAR ── */
@@ -260,14 +239,12 @@ body {
     font-family: 'Fraunces', serif;
     font-size: 0.95rem; font-weight: 600; color: var(--ocean);
 }
-/* vertical connector line */
 .step:not(:last-child) .step-num-wrap::after {
     content: '';
     position: absolute; top: 38px; left: 50%; transform: translateX(-50%);
     width: 2px; height: calc(100% + 0.5rem);
     background: linear-gradient(to bottom, var(--sky-mid), transparent);
 }
-.step-body {}
 .step-place {
     font-family: 'Fraunces', serif;
     font-size: 1rem; font-weight: 400; color: var(--ink); margin-bottom: 0.2rem;
@@ -325,7 +302,6 @@ body {
     font-size: 1.1rem; flex-shrink: 0;
     border: 1.5px solid var(--sand-dark);
 }
-.t-info {}
 .t-name { font-weight: 600; color: var(--ink); font-size: 0.84rem; }
 .t-desc { font-size: 0.75rem; color: var(--text-muted); }
 
@@ -341,6 +317,54 @@ body {
     font-family: 'Nunito Sans', sans-serif;
 }
 .back-btn:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26,155,191,0.4); }
+
+
+/* =========================================
+   ── RESPONSIVE & MOBILE FRIENDLY ──
+   (Tidak mengubah tampilan asli desktop)
+========================================= */
+
+@media (max-width: 900px) {
+    .rute-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    /* Navbar stack responsif */
+    .navbar { padding: 0.8rem 1.5rem; height: auto; }
+    .nav-container { flex-direction: column; gap: 0.6rem; }
+    .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+    .nav-link { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+
+    /* Hero header penyesuaian padding */
+    .hero { height: auto; min-height: 320px; padding-top: 100px; }
+    .hero-badges { top: 110px; left: 1.5rem; flex-wrap: wrap; gap: 0.4rem; }
+    .hero-content { padding: 0 1.5rem 2.5rem; margin-top: 3.5rem; }
+
+    /* Main container area */
+    .main { padding: 2rem 1.5rem 5rem; }
+
+    /* Info Chips Grid 2x2 untuk Tablet/HP */
+    .info-row { gap: 0.8rem; }
+    .info-chip { flex: 1 1 calc(50% - 0.8rem); min-width: 130px; padding: 0.8rem; }
+
+    /* Ukuran Peta Pengecilan Tinggi */
+    .map-card iframe { height: 350px; }
+    .map-actions { bottom: 1rem; right: 1rem; gap: 0.5rem; }
+    .map-btn { padding: 0.5rem 1rem; font-size: 0.75rem; }
+
+    /* Step Timeline Penyesuaian Spasi */
+    .step { padding: 1rem 0; gap: 0.8rem; }
+    .step-num { width: 32px; height: 32px; font-size: 0.85rem; }
+    .step:not(:last-child) .step-num-wrap::after { top: 34px; }
+
+    /* Tombol Kembali */
+    .back-btn { left: 1rem; bottom: 1rem; padding: 0.6rem 1.2rem; font-size: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+    /* Info Chips menumpuk 1 kolom di layar yang sangat kecil (opsional) */
+    .info-chip { flex: 1 1 100%; }
+}
 </style>
 </head>
 <body>
@@ -350,11 +374,10 @@ body {
     <div class="nav-container">
         <a href="/" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
         <ul class="nav-menu">
-            <li><a href="/#tentang"    class="nav-link">Tentang</a></li>
-            <li><a href="/#keunikan"   class="nav-link">Keunikan</a></li>
+            <li><a href="/"class="nav-link">Beranda</a></li>
             <li><a href="/panduan_rute" class="nav-link active">🗺 Panduan Rute</a></li>
-            <li><a href="/fasilitas"   class="nav-link">Fasilitas</a></li>
-            <li><a href="/#galeri"     class="nav-link">Galeri</a></li>
+            <li><a href="/fasilitas" class="nav-link">Fasilitas</a></li>
+            <li><a href="/#galeri" class="nav-link">Galeri</a></li>
         </ul>
     </div>
 </nav>

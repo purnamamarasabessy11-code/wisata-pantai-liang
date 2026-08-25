@@ -85,13 +85,16 @@
         .nav-container {
             max-width: 1200px; margin: 0 auto; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
+            gap: 0.75rem;
         }
         .nav-logo {
             font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 400;
             color: var(--ink); text-decoration: none;
             display: flex; align-items: center; gap: 0.5rem;
+            flex-shrink: 0;
         }
         .nav-logo strong { color: var(--ocean); font-weight: 600; }
+        .nav-right { display: flex; align-items: center; gap: 0.5rem; }
         .nav-menu { display: flex; list-style: none; gap: 0.3rem; margin: 0; padding: 0; align-items: center; }
         .nav-link {
             color: var(--ink-soft); text-decoration: none;
@@ -102,10 +105,57 @@
         .nav-link:hover { background: var(--sky); color: var(--ocean); }
         .nav-link.special { background: none; color: var(--ink-soft); font-weight: 500; }
         .nav-link.special:hover { background: var(--sky); color: var(--ocean); }
+
+        /* Hamburger toggle — tersembunyi di desktop, muncul di mobile */
+        .nav-burger {
+            display: none;
+            align-items: center; justify-content: center;
+            width: 40px; height: 40px; flex-shrink: 0;
+            background: var(--sky);
+            border: 1.5px solid rgba(26,155,191,0.25);
+            border-radius: 12px;
+            cursor: pointer;
+            padding: 0;
+        }
+        .nav-burger span {
+            display: block; width: 18px; height: 2px;
+            background: var(--ocean-dark); border-radius: 2px;
+            position: relative;
+            transition: transform 0.25s ease, opacity 0.2s ease, background 0.2s ease;
+        }
+        .nav-burger span::before,
+        .nav-burger span::after {
+            content: ''; position: absolute; left: 0; width: 18px; height: 2px;
+            background: var(--ocean-dark); border-radius: 2px;
+            transition: transform 0.25s ease, top 0.25s ease, opacity 0.2s ease;
+        }
+        .nav-burger span::before { top: -6px; }
+        .nav-burger span::after  { top: 6px; }
+        .nav-burger.open span { background: transparent; }
+        .nav-burger.open span::before { top: 0; transform: rotate(45deg); }
+        .nav-burger.open span::after  { top: 0; transform: rotate(-45deg); }
+
         @media (max-width: 768px) {
-            .navbar { padding: 0 1.5rem; }
-            .nav-menu { gap: 0.2rem; }
-            .nav-link { font-size: 0.75rem; padding: 0.35rem 0.6rem; }
+            .navbar { padding: 0 1.25rem; height: 60px; }
+            .nav-burger { display: flex; }
+            .nav-menu {
+                position: fixed; top: 60px; left: 0; right: 0;
+                flex-direction: column; align-items: stretch; gap: 0;
+                background: var(--white);
+                border-top: 1px solid var(--border);
+                box-shadow: 0 16px 30px rgba(13,95,120,0.12);
+                max-height: 0; overflow: hidden;
+                transition: max-height 0.3s ease;
+                padding: 0 0.75rem;
+            }
+            .nav-menu.open { max-height: 340px; padding: 0.6rem 0.75rem; }
+            .nav-menu li { width: 100%; }
+            .nav-link {
+                display: block; width: 100%;
+                font-size: 0.95rem; padding: 0.85rem 1rem;
+                border-radius: 12px;
+            }
+            .nav-link.special { font-weight: 600; color: var(--ocean); }
         }
 
         /* ══════════════════════════════
@@ -117,7 +167,7 @@
         }
         .page-hero-img {
             position: absolute; inset: 0;
-            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=85') center/cover no-repeat;
+            background: url('{{ asset('liang3.jpeg') }}') center/cover no-repeat;
         }
         .page-hero-overlay {
             position: absolute; inset: 0;
@@ -129,13 +179,14 @@
 
         .page-hero-wave { position:absolute; bottom:0; left:0; right:0; }
 
-        .hero-badges { position:absolute; top:90px; left:5rem; display:flex; gap:0.6rem; z-index:4; }
+        .hero-badges { position:absolute; top:90px; left:5rem; display:flex; gap:0.6rem; z-index:4; flex-wrap: wrap; }
         .hero-badge-pill {
             display:inline-flex; align-items:center; gap:0.4rem;
             padding:0.35rem 0.9rem;
             background:rgba(255,255,255,0.18); backdrop-filter:blur(12px);
             border:1px solid rgba(255,255,255,0.35); border-radius:50px;
             font-size:0.7rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:white;
+            white-space: nowrap;
         }
         .hero-badge-pill .dot { width:5px; height:5px; border-radius:50%; background:var(--gold); animation:blink 2s ease infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
@@ -143,11 +194,11 @@
         .page-hero-content { position:relative; z-index:4; padding:0 5rem; max-width:900px; }
         .hero-eyebrow { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.75); font-weight:500; margin-bottom:1.2rem; display:flex; align-items:center; gap:0.8rem; }
         .hero-eyebrow::before { content:''; width:24px; height:1px; background:rgba(255,255,255,0.5); }
-        .page-hero-title { font-family:'Fraunces',serif; font-size:clamp(3rem,7vw,6.5rem); font-weight:300; line-height:1.0; color:white; letter-spacing:-0.02em; }
+        .page-hero-title { font-family:'Fraunces',serif; font-size:clamp(2.6rem,9vw,6.5rem); font-weight:300; line-height:1.05; color:white; letter-spacing:-0.02em; }
         .page-hero-title em { font-style:italic; color:#a8eae7; }
-        .hero-sub { margin-top:1rem; font-size:1rem; color:rgba(255,255,255,0.7); font-weight:300; }
+        .hero-sub { margin-top:1rem; font-size:clamp(0.85rem,2.6vw,1rem); color:rgba(255,255,255,0.7); font-weight:300; }
 
-        .hero-stats { position:absolute; bottom:80px; left:5rem; z-index:4; display:flex; gap:1rem; }
+        .hero-stats { position:absolute; bottom:80px; left:5rem; right: 5rem; z-index:4; display:flex; gap:1rem; flex-wrap: wrap; }
         .hero-stat-card { background:rgba(255,255,255,0.13); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,0.25); border-radius:14px; padding:0.9rem 1.3rem; min-width:110px; transition:background 0.3s; }
         .hero-stat-card:hover { background:rgba(255,255,255,0.22); }
         .hero-stat-num { font-family:'Fraunces',serif; font-size:1.6rem; font-weight:300; color:white; line-height:1; }
@@ -155,9 +206,17 @@
         .hero-stat-label { font-size:0.65rem; color:rgba(255,255,255,0.6); letter-spacing:0.08em; text-transform:uppercase; margin-top:0.25rem; }
 
         @media (max-width:768px) {
-            .hero-badges,.hero-stats { left:1.5rem; }
-            .page-hero-content { padding:0 1.5rem; }
-            .hero-stats { flex-wrap:wrap; gap:0.5rem; bottom:70px; }
+            .hero-badges,.hero-stats { left:1.25rem; right: 1.25rem; }
+            .page-hero-content { padding:0 1.25rem; }
+            .hero-stats { flex-wrap:wrap; gap:0.5rem; bottom:64px; }
+            .hero-stat-card { padding: 0.7rem 1rem; min-width: 96px; }
+        }
+        @media (max-width:480px) {
+            .page-hero { min-height: 560px; }
+            .hero-badges { top: 74px; gap: 0.4rem; }
+            .hero-badge-pill { font-size: 0.62rem; padding: 0.3rem 0.7rem; }
+            .hero-stats { bottom: 56px; }
+            .hero-eyebrow { margin-bottom: 0.8rem; }
         }
 
         /* cuaca */
@@ -307,6 +366,12 @@
         .lb-nav:hover { background:rgba(45,191,184,0.25); border-color:var(--teal); color:var(--teal); }
         .lb-prev { left:1.5rem; }
         .lb-next { right:1.5rem; }
+        @media (max-width: 600px) {
+            .lb-close { top: 0.75rem; right: 0.75rem; width: 34px; height: 34px; font-size: 1.15rem; }
+            .lb-nav { width: 38px; height: 38px; font-size: 1.1rem; }
+            .lb-prev { left: 0.5rem; }
+            .lb-next { right: 0.5rem; }
+        }
 
         /* ═══════════════════════════════════════════════════
            SECTION TIKET & MUSIM — palet terang (sand/sky)
@@ -594,6 +659,7 @@
             font-weight: 600; font-size: 0.85rem; cursor: pointer;
             font-family: 'Nunito Sans', sans-serif;
             transition: background 0.25s;
+            width: auto;
         }
         .ulasan-submit:hover { background: var(--ocean-dark); }
         .ulasan-summary {
@@ -665,6 +731,49 @@
             .ulasan-form-row { flex-direction: column; }
         }
 
+        /* Breakpoint tambahan untuk layar sangat kecil (HP kecil / lama) */
+        @media (max-width: 480px) {
+            .section-about,.section-keunikan,.section-galeri,.section-tiket,.section-ulasan { padding:3rem 1.1rem; }
+            .section-title { font-size: clamp(1.6rem, 7vw, 2.2rem); margin-bottom: 1rem; }
+            .section-about::before { font-size: 9rem; bottom: -1.5rem; right: -1rem; }
+
+            .about-visual { height: 240px; }
+            .acard-main { width: 62%; height: 100%; }
+            .acard-secondary { width: 44%; height: 55%; left: 0; }
+            .acard-tag { font-size: 0.65rem; padding: 0.4rem 0.9rem; right: 8px; }
+            .acard-ribbon { font-size: 0.6rem; padding: 0.35rem 1rem 0.35rem 1.4rem; }
+
+            .keunikan-grid { gap: 1rem; }
+            .k-card { padding: 1.5rem 1.3rem; }
+
+            .galeri-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+
+            .tiket-card-head { padding: 1.5rem 1.5rem 1.4rem; }
+            .tiket-head-title { font-size: 1.35rem; }
+            .tiket-card-body { padding: 1.3rem 1.5rem 1.5rem; }
+            .tiket-card-foot { padding: 0.9rem 1.5rem 1.2rem; font-size: 0.7rem; }
+
+            .musim-cond-grid { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+            .musim-best-card { padding: 1.3rem 1.4rem; }
+
+            .ulasan-form { padding: 1.3rem; }
+            .ulasan-submit { width: 100%; padding: 0.85rem 1.5rem; }
+            .ulasan-summary { flex-wrap: wrap; gap: 0.8rem; padding: 1.2rem 1.4rem; }
+            .ulasan-summary-divider { display: none; }
+            .ulasan-item { padding: 1.1rem 1.2rem; }
+
+            .btn-outline { width: 100%; text-align: center; }
+        }
+
+        /* Target sentuh lebih besar & aksesibilitas fokus untuk mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .nav-link, .filter-btn, .btn-outline, .ulasan-submit,
+            .map-btn, .load-btn, .f-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+        }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+            outline: 2px solid var(--ocean); outline-offset: 2px;
+        }
+
         /* ══════════════════════════════
    TOMBOL SEARCH DI NAVBAR
 ══════════════════════════════ */
@@ -680,6 +789,7 @@
     display: flex; align-items: center; gap: 0.4rem;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 600;
+    flex-shrink: 0;
 }
 .nav-search-btn::after {
     content: 'Ctrl K';
@@ -697,6 +807,8 @@
 }
 @media (max-width: 768px) {
     .nav-search-btn::after { display: none; }
+    .nav-search-btn { width: 40px; height: 40px; padding: 0; border-radius: 12px; justify-content: center; }
+    .nav-search-btn span { display: none; }
 }
 
 /* ══════════════════════════════
@@ -850,6 +962,13 @@ kbd {
     font-size: 0.65rem; font-family: inherit; color: var(--ink-soft);
 }
 @media (max-width: 600px) { .search-footer { display: none; } }
+
+@media (max-width: 600px) {
+    .search-modal { padding: 0; align-items: stretch; }
+    .search-modal-inner { max-width: 100%; height: 100dvh; border-radius: 0; display: flex; flex-direction: column; }
+    .search-results { flex: 1; max-height: none; }
+    .search-input { font-size: 16px; } /* cegah auto-zoom Safari iOS */
+}
     </style>
 </head>
 <body>
@@ -858,13 +977,18 @@ kbd {
 <nav class="navbar">
     <div class="nav-container">
         <a href="#" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
-        <button class="nav-search-btn" id="navSearchBtn" type="button" title="Cari (Ctrl+K)">🔍 <span>Cari</span></button>
-        <ul class="nav-menu">
-            <li><a href="#tentang"      class="nav-link">Beranda</a></li>
-            <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
-            <li><a href="/fasilitas"    class="nav-link">Fasilitas</a></li>
-            <li><a href="{{ route('galeri') }}" class="nav-link special">Galeri</a></li>
-        </ul>
+        <div class="nav-right">
+            <button class="nav-search-btn" id="navSearchBtn" type="button" title="Cari (Ctrl+K)">🔍 <span>Cari</span></button>
+            <button class="nav-burger" id="navBurger" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="navMenu">
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#tentang"      class="nav-link">Beranda</a></li>
+                <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
+                <li><a href="/fasilitas"    class="nav-link">Fasilitas</a></li>
+                <li><a href="{{ route('galeri') }}" class="nav-link special">Galeri</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
@@ -888,8 +1012,7 @@ kbd {
                     <button type="button" class="sh-chip" data-q="parkir">🅿️ Parkir</button>
                     <button type="button" class="sh-chip" data-q="rute">🗺️ Rute</button>
                     <button type="button" class="sh-chip" data-q="toilet">🚻 Toilet</button>
-                    <button type="button" class="sh-chip" data-q="gazebo">⛱️ Gazebo</button>
-                    <button type="button" class="sh-chip" data-q="parkir motor">🏍️ Parkir Motor</button>
+                    <button type="button" class="sh-chip" data-q="Warung makan">🍽️ Warung makan</button>
                 </div>
             </div>
 
@@ -952,7 +1075,7 @@ kbd {
         <div class="hero-stat-card">
             <div class="hero-stat-num">40 <span>km</span></div>
             <div class="hero-stat-label">Dari Kota Ambon</div>
-
+        </div>
     </div>
 </section>
 
@@ -1295,6 +1418,29 @@ kbd {
         });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* Navbar mobile (hamburger) */
+    (function () {
+        const burger = document.getElementById('navBurger');
+        const menu   = document.getElementById('navMenu');
+        if (!burger || !menu) return;
+
+        function closeMenu() {
+            menu.classList.remove('open');
+            burger.classList.remove('open');
+            burger.setAttribute('aria-expanded', 'false');
+        }
+        function toggleMenu() {
+            const isOpen = menu.classList.toggle('open');
+            burger.classList.toggle('open', isOpen);
+            burger.setAttribute('aria-expanded', String(isOpen));
+        }
+
+        burger.addEventListener('click', toggleMenu);
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+        window.addEventListener('resize', () => { if (window.innerWidth > 768) closeMenu(); });
+    })();
 
     /* Filter Galeri */
     const allItems = Array.from(document.querySelectorAll('.g-item'));

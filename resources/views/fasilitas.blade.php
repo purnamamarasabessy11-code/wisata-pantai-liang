@@ -78,10 +78,12 @@ body {
 }
 .nav-link:hover { background: var(--sky); color: var(--ocean); }
 .nav-link.active { background: var(--sky); color: var(--ocean); font-weight: 600; }
+
 @media (max-width: 768px) {
-    .navbar { padding: 0 1.5rem; }
-    .nav-menu { gap: 0.1rem; }
-    .nav-link { font-size: 0.72rem; padding: 0.35rem 0.55rem; }
+    .navbar { padding: 0.8rem 1.5rem; height: auto; }
+    .nav-container { flex-direction: column; gap: 0.8rem; }
+    .nav-menu { flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
+    .nav-link { font-size: 0.75rem; padding: 0.4rem 0.7rem; }
 }
 
 /* ── HERO ── */
@@ -138,9 +140,10 @@ body {
 .hero-sub { margin-top: 0.6rem; font-size: 0.9rem; color: rgba(255,255,255,0.65); font-weight: 300; }
 
 @media (max-width: 768px) {
-    .hero { height: 300px; }
-    .hero-badges { top: 78px; left: 1.5rem; }
+    .hero { height: auto; min-height: 320px; padding-top: 100px; justify-content: flex-end; }
+    .hero-badges { position: relative; top: 0; left: 0; margin: 0 1.5rem 1.5rem; }
     .hero-content { padding: 0 1.5rem 2.5rem; }
+    .hero-title { font-size: clamp(2rem, 8vw, 3rem); }
 }
 
 /* ── MAIN ── */
@@ -148,7 +151,9 @@ body {
     max-width: 1200px; margin: 0 auto;
     padding: 3.5rem 5rem 7rem;
 }
-@media (max-width: 768px) { .main { padding: 2.5rem 1.5rem 6rem; } }
+@media (max-width: 768px) {
+    .main { padding: 2rem 1.5rem 6rem; }
+}
 
 /* ── STAT CHIPS ── */
 .stats-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
@@ -168,6 +173,17 @@ body {
     text-transform: uppercase; color: var(--text-muted); margin-top: 0.2rem;
 }
 
+@media (max-width: 768px) {
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        margin-bottom: 2rem;
+    }
+    .stat-chip { min-width: 0; padding: 1rem 0.5rem; }
+    .stat-num { font-size: 1.7rem; }
+}
+
 /* ── FILTER ── */
 .filter-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
 .filter-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
@@ -181,6 +197,11 @@ body {
 }
 .filter-btn:hover { border-color: var(--ocean); color: var(--ocean); background: var(--sky); }
 .filter-btn.active { border-color: var(--ocean); color: white; background: var(--ocean); }
+
+@media (max-width: 768px) {
+    .filter-pills { gap: 0.4rem; }
+    .filter-btn { padding: 0.35rem 0.9rem; font-size: 0.7rem; }
+}
 
 .divider {
     height: 1.5px;
@@ -205,12 +226,17 @@ body {
     font-family:'Fraunces',serif; font-size:2.8rem; font-weight:300;
     color:var(--sky-mid); line-height:1;
 }
-@media (max-width:768px) { .sec-head { flex-direction:column; } .sec-count { display:none; } }
+@media (max-width:768px) {
+    .sec-head { flex-direction: column; align-items: flex-start; margin: 1.5rem 0; gap: 0.5rem; }
+    .sec-count { display: none; }
+    .sec-title { font-size: 1.5rem; }
+}
 
 /* ── GRID ── */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    /* Penyesuaian responsif pelindung lay-out mobile agar kotak fit di layar sekecil apapun */
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
     gap: 1.3rem;
 }
 
@@ -284,6 +310,18 @@ body {
 }
 .back-btn:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26,155,191,0.4); }
 
+@media (max-width: 768px) {
+    .back-btn {
+        left: 50%;
+        bottom: 1.5rem;
+        transform: translateX(-50%);
+        width: max-content;
+    }
+    .back-btn:hover {
+        transform: translate(-50%, -2px);
+    }
+}
+
 /* ── FADE IN ── */
 @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 </style>
@@ -295,7 +333,7 @@ body {
     <div class="nav-container">
         <a href="/" class="nav-logo">🏖 Pantai <strong>Liang</strong></a>
         <ul class="nav-menu">
-            <li><a href="/#Beranda"    class="nav-link">Beranda</a></li>
+            <li><a href="/"class="nav-link">Beranda</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
             <li><a href="{{ route('fasilitas') }}" class="nav-link active">Fasilitas</a></li>
             <li><a href="/#galeri"     class="nav-link">Galeri</a></li>
@@ -407,10 +445,10 @@ body {
 
 <script>
 const titleMap = {
-    all:    { ey:'Semua Layanan',       t:'Fasilitas & <em>Wahana</em>', n:{{ $stats['total'] }} },
-    gratis: { ey:'Fasilitas Gratis',    t:'<em>Gratis</em> Untukmu',     n:{{ $stats['gratis'] }} },
-    bayar:  { ey:'Fasilitas Berbayar',  t:'Layanan <em>Berbayar</em>',   n:{{ $stats['bayar'] }} },
-    wahana: { ey:'Wahana Seru',         t:'Wahana & <em>Aktivitas</em>', n:{{ $stats['wahana'] }} },
+    all:    { ey:'Semua Layanan',     t:'Fasilitas & <em>Wahana</em>', n:{{ $stats['total'] }} },
+    gratis: { ey:'Fasilitas Gratis',  t:'<em>Gratis</em> Untukmu',     n:{{ $stats['gratis'] }} },
+    bayar:  { ey:'Fasilitas Berbayar',t:'Layanan <em>Berbayar</em>',   n:{{ $stats['bayar'] }} },
+    wahana: { ey:'Wahana Seru',       t:'Wahana & <em>Aktivitas</em>', n:{{ $stats['wahana'] }} },
 };
 
 function filterCard(type, btn) {

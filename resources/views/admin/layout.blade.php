@@ -107,86 +107,67 @@
         .stat-card .num { font-family: 'Fraunces', serif; font-size: 1.8rem; color: var(--ocean-dark); }
         .stat-card .lbl { font-size: 0.8rem; color: var(--text-mid); margin-top: 0.2rem; }
 
-        @media (max-width: 720px) {
+        /* === Fix pagination Previous/Next === */
+        .main nav[role="navigation"] > div:first-child { display: none; }
+        .main nav[role="navigation"] svg { width: 16px !important; height: 16px !important; display: inline-block; vertical-align: middle; }
+        .main nav[role="navigation"] .flex, .main nav[role="navigation"] ul { display: flex; align-items: center; flex-wrap: wrap; gap: 0.3rem; list-style: none; margin: 0; padding: 0; }
+        .main nav[role="navigation"] a, .main nav[role="navigation"] span[aria-current] span, .main nav[role="navigation"] span[aria-disabled] span { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 0.6rem; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); background: var(--white); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; }
+        .main nav[role="navigation"] a:hover { background: var(--sand); color: var(--ocean-dark); }
+        .main nav[role="navigation"] span[aria-current] span { background: var(--ocean); color: var(--white); border-color: var(--ocean); }
+        .main nav[role="navigation"] span[aria-disabled] span { opacity: 0.4; cursor: default; }
+        .main nav[role="navigation"] p { font-size: 0.82rem; color: var(--text-mid); margin: 0.5rem 0; }
+
+        /* =========================================
+           ── RESPONSIVE & MOBILE FRIENDLY ──
+        ========================================= */
+        @media (max-width: 768px) {
             body { flex-direction: column; }
-            .sidebar { width: 100%; min-height: auto; flex-direction: row; overflow-x: auto; align-items: center; }
+
+            /* Menyulap Sidebar menjadi menu horizontal yang bisa di-scroll / swipe */
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                flex-direction: row;
+                overflow-x: auto;
+                align-items: center;
+                padding: 0.8rem 1rem;
+                -webkit-overflow-scrolling: touch; /* Efek geser halus di iOS */
+            }
+
+            /* Menyembunyikan scrollbar bawaan browser agar menu terlihat rapi */
+            .sidebar::-webkit-scrollbar { display: none; }
+            .sidebar { scrollbar-width: none; -ms-overflow-style: none; }
+
             .sidebar .brand { display: none; }
-            .sidebar nav { display: flex; gap: 0.3rem; }
-            .sidebar .logout-form { margin-top: 0; }
-            .main { padding: 1.4rem; }
+
+            /* Merapikan link navigasi agar tidak turun ke bawah */
+            .sidebar nav { display: flex; gap: 0.4rem; }
+            .sidebar nav a {
+                white-space: nowrap;
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+                margin-bottom: 0;
+            }
+
+            /* Tombol logout dibuat senada dengan link navigasi */
+            .sidebar .logout-form { margin-top: 0; margin-left: 0.5rem; }
+            .sidebar .logout-btn {
+                width: auto;
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            /* Area konten utama dan grid */
+            .main { padding: 1.2rem; }
             .form-grid { grid-template-columns: 1fr; }
-        }
 
-        /* === Fix pagination Previous/Next (markup bawaan Laravel pakai class Tailwind,
-        tapi Tailwind tidak dimuat di panel admin) === */
+            /* Memastikan semua kotak (termasuk card yang berisi tabel) bisa di-scroll horizontal */
+            /* Ini akan menyelamatkan tabel-tabel data di HP agar tata letaknya tidak hancur */
+            .card { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 600px; }
 
-        /* Sembunyikan blok "mobile-only" bawaan Laravel (sm:hidden) yg jadi tampil terus */
-        .main nav[role="navigation"] > div:first-child {
-            display: none;
-        }
-
-        /* Kunci ukuran ikon panah supaya tidak melebar */
-        .main nav[role="navigation"] svg {
-            width: 16px !important;
-            height: 16px !important;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        /* Rapikan wrapper flex Tailwind yang tidak ke-load */
-        .main nav[role="navigation"] .flex,
-        .main nav[role="navigation"] ul {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Style tombol angka & panah */
-        .main nav[role="navigation"] a,
-        .main nav[role="navigation"] span[aria-current] span,
-        .main nav[role="navigation"] span[aria-disabled] span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 36px;
-            height: 36px;
-            padding: 0 0.6rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--ink-soft);
-            background: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            text-decoration: none;
-        }
-
-        .main nav[role="navigation"] a:hover {
-            background: var(--sand);
-            color: var(--ocean-dark);
-        }
-
-        /* Halaman aktif */
-        .main nav[role="navigation"] span[aria-current] span {
-            background: var(--ocean);
-            color: var(--white);
-            border-color: var(--ocean);
-        }
-
-        /* Tombol prev/next yang disabled */
-        .main nav[role="navigation"] span[aria-disabled] span {
-            opacity: 0.4;
-            cursor: default;
-        }
-
-        /* Teks "Showing X to Y of Z results" */
-        .main nav[role="navigation"] p {
-            font-size: 0.82rem;
-            color: var(--text-mid);
-            margin: 0.5rem 0;
+            .page-header h1 { font-size: 1.4rem; }
         }
     </style>
 

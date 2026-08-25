@@ -290,7 +290,7 @@ body {
                 <a href="{{ route('cari', ['q' => 'parkir']) }}" class="quick-tag">🅿️ Parkir</a>
                 <a href="{{ route('cari', ['q' => 'rute']) }}" class="quick-tag">🗺️ Rute</a>
                 <a href="{{ route('cari', ['q' => 'toilet']) }}" class="quick-tag">🚻 Toilet</a>
-                <a href="{{ route('cari', ['q' => 'gazebo']) }}" class="quick-tag">⛱️ Gazebo</a>
+                <a href="{{ route('cari', ['q' => 'warung makan']) }}" class="quick-tag">🍽️ warung makan</a>
             </div>
         @endif
     </div>
@@ -328,12 +328,12 @@ body {
         <div class="hasil-kosong">
             <div class="hk-icon">🔎</div>
             <div class="hk-title">Tidak ada hasil untuk <strong>"{{ $q }}"</strong></div>
-            <div class="hk-desc">Coba periksa ejaan atau gunakan kata kunci lain di bawah ini.</div>
+            <div class="hk-desc">Coba periksa ejaan.</div>
             <div class="hk-suggest">
                 <a href="{{ route('cari', ['q' => 'parkir']) }}" class="quick-tag">🅿️ Parkir</a>
                 <a href="{{ route('cari', ['q' => 'rute']) }}" class="quick-tag">🗺️ Rute</a>
                 <a href="{{ route('cari', ['q' => 'toilet']) }}" class="quick-tag">🚻 Toilet</a>
-                <a href="{{ route('cari', ['q' => 'gazebo']) }}" class="quick-tag">⛱️ Gazebo</a>
+                <a href="{{ route('cari', ['q' => 'Warung makan']) }}" class="quick-tag">🍽️ Warung makan</a>
             </div>
         </div>
     @else

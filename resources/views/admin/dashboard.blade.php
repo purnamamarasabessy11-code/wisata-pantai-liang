@@ -3,6 +3,34 @@
 @section('title', 'Dashboard')
 
 @section('content')
+    <!-- Tambahan CSS khusus mobile (tidak akan memengaruhi desktop) -->
+    <style>
+        @media (max-width: 768px) {
+            .stat-grid {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important; /* 2 kolom di tablet/HP layar besar */
+                gap: 1rem;
+            }
+            .table-responsive {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .table-responsive table {
+                min-width: 550px; /* Memaksa tabel agar tidak menyempit/berantakan */
+            }
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .stat-grid {
+                grid-template-columns: 1fr !important; /* 1 kolom penuh di HP layar kecil */
+            }
+        }
+    </style>
+
     <div class="page-header">
         <div>
             <h1>Dashboard</h1>
@@ -39,21 +67,25 @@
         @if ($ulasanTerbaru->isEmpty())
             <div class="empty">Belum ada ulasan masuk.</div>
         @else
-            <table>
-                <thead>
-                    <tr><th>Nama</th><th>Rating</th><th>Komentar</th><th>Tanggal</th></tr>
-                </thead>
-                <tbody>
-                    @foreach ($ulasanTerbaru as $u)
-                        <tr>
-                            <td>{{ $u->nama }}</td>
-                            <td>{{ str_repeat('⭐', $u->rating_aman) }}</td>
-                            <td>{{ \Illuminate\Support\Str::limit($u->komentar, 60) }}</td>
-                            <td>{{ $u->created_at->format('d/m/Y') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <!-- Tabel dibungkus agar bisa di-scroll horizontal di HP -->
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr><th>Nama</th><th>Rating</th><th>Komentar</th><th>Tanggal</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ulasanTerbaru as $u)
+                            <tr>
+                                <td>{{ $u->nama }}</td>
+                                <td>{{ str_repeat('⭐', $u->rating_aman) }}</td>
+                                <td>{{ \Illuminate\Support\Str::limit($u->komentar, 60) }}</td>
+                                <td>{{ $u->created_at->format('d/m/Y') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
             <div style="margin-top:1rem;">
                 <a href="{{ route('admin.ulasan.index') }}" class="btn btn-secondary btn-sm">Lihat semua ulasan →</a>
             </div>
