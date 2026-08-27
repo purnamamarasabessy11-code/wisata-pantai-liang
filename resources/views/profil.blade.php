@@ -1271,9 +1271,9 @@ kbd {
             <!-- Kartu musim terbaik -->
             <div class="musim-best-card">
                 <div class="musim-best-badge">⭐ Musim Terbaik</div>
-                <h3>Musim Kemarau</h3>
-                <p>Cuaca lebih cerah, ombak lebih tenang, dan air laut tampak lebih jernih dibanding musim hujan. Waktu ideal untuk snorkeling dan menikmati panorama dari tepi pantai.</p>
-                <div class="musim-months">
+                <h3 id="musimJudul">Musim Kemarau</h3>
+                <p id="musimDesk">Cuaca lebih cerah, ombak lebih tenang, dan air laut tampak lebih jernih dibanding musim hujan. Waktu ideal untuk snorkeling dan menikmati panorama dari tepi pantai.</p>
+                <div class="musim-months" id="musimMonths">
                     <div class="musim-month-pill"><span class="m-icon">☀️</span><span class="m-name">Mei</span></div>
                     <div class="musim-month-pill"><span class="m-icon">☀️</span><span class="m-name">Juni</span></div>
                     <div class="musim-month-pill"><span class="m-icon">🌤</span><span class="m-name">Juli</span></div>
@@ -1287,22 +1287,17 @@ kbd {
                 <div class="musim-cond-card">
                     <div class="musim-cond-icon">🌡️</div>
                     <div class="musim-cond-label">Suhu Rata-rata</div>
-                    <div class="musim-cond-value">27 – 31 °C</div>
-                </div>
-                <div class="musim-cond-card">
-                    <div class="musim-cond-icon">🌊</div>
-                    <div class="musim-cond-label">Kondisi Ombak</div>
-                    <div class="musim-cond-value">Tenang & Jernih</div>
+                    <div class="musim-cond-value" id="condSuhu">27 – 31 °C</div>
                 </div>
                 <div class="musim-cond-card">
                     <div class="musim-cond-icon">💧</div>
                     <div class="musim-cond-label">Kelembaban</div>
-                    <div class="musim-cond-value">70 – 80 %</div>
+                    <div class="musim-cond-value" id="condHumid">70 – 80 %</div>
                 </div>
                 <div class="musim-cond-card">
                     <div class="musim-cond-icon">🌬️</div>
                     <div class="musim-cond-label">Angin</div>
-                    <div class="musim-cond-value">10 – 18 km/j</div>
+                    <div class="musim-cond-value" id="condAngin">10 – 18 km/j</div>
                 </div>
             </div>
 
@@ -1511,6 +1506,105 @@ kbd {
     }
     getWeather();
     setInterval(getWeather, 600000);
+
+    /* ══════════════════════════════════════════════
+   KONDISI CUACA & MUSIM DINAMIS (Open-Meteo)
+   Fallback: kalau fetch gagal, nilai statis di HTML tetap tampil.
+══════════════════════════════════════════════ */
+    (function () {
+        const LAT = -3.5794, LON = 128.3247;
+
+        function kategoriOmbak(h) {
+            if (h == null || isNaN(h)) return null;
+            if (h < 0.5)  return 'Tenang & Jernih';
+            if (h < 1.25) return 'Cukup Tenang';
+            if (h < 2.0)  return 'Sedang';
+            return 'Cukup Tinggi';
+        }
+
+        // 1) Kondisi cuaca rata-rata (prakiraan 7 hari ke depan)
+        async function loadKondisiCuaca() {
+            try {
+                const cuacaUrl =
+                    `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
+                    `&daily=temperature_2m_max,temperature_2m_min,windspeed_10m_max` +
+                    `&hourly=relative_humidity_2m&forecast_days=7&timezone=auto`;
+
+                const [cuacaRes, marineRes] = await Promise.all([
+                    fetch(cuacaUrl),
+                ]);
+                const cuaca  = await cuacaRes.json();
+
+                const tMax = cuaca.daily.temperature_2m_max;
+                const tMin = cuaca.daily.temperature_2m_min;
+                const suhuMinAvg = tMin.reduce((a, b) => a + b, 0) / tMin.length;
+                const suhuMaxAvg = tMax.reduce((a, b) => a + b, 0) / tMax.length;
+
+                const humidArr  = cuaca.hourly.relative_humidity_2m;
+                const humidRata = humidArr.reduce((a, b) => a + b, 0) / humidArr.length;
+
+                const anginArr  = cuaca.daily.windspeed_10m_max;
+                const anginRata = anginArr.reduce((a, b) => a + b, 0) / anginArr.length;
+
+                document.getElementById('condSuhu').textContent  = `${Math.round(suhuMinAvg)} – ${Math.round(suhuMaxAvg)} °C`;
+                document.getElementById('condHumid').textContent = `${Math.round(humidRata)} %`;
+                document.getElementById('condAngin').textContent = `${Math.round(anginRata)} km/j`;
+
+            } catch (err) {
+                console.warn('Gagal memuat kondisi cuaca rata-rata, memakai nilai default:', err);
+            }
+        }
+
+        // 2) Musim terbaik — dari curah hujan historis 2 tahun terakhir
+        async function loadMusimTerbaik() {
+            try {
+                const tahunAkhir = new Date().getFullYear() - 1; // tahun penuh terakhir
+                const tahunAwal  = tahunAkhir - 1;                // 2 tahun data
+                const url =
+                    `https://archive-api.open-meteo.com/v1/archive?latitude=${LAT}&longitude=${LON}` +
+                    `&start_date=${tahunAwal}-01-01&end_date=${tahunAkhir}-12-31` +
+                    `&daily=precipitation_sum&timezone=auto`;
+
+                const res  = await fetch(url);
+                const data = await res.json();
+                if (!data.daily?.time) return;
+
+                const totalPerBulan = Array(12).fill(0);
+                const hariPerBulan  = Array(12).fill(0);
+
+                data.daily.time.forEach((tgl, i) => {
+                    const bulan = parseInt(tgl.split('-')[1], 10) - 1;
+                    totalPerBulan[bulan] += data.daily.precipitation_sum[i] || 0;
+                    hariPerBulan[bulan]  += 1;
+                });
+
+                const rataPerBulan = totalPerBulan.map((t, i) => hariPerBulan[i] ? t / hariPerBulan[i] : Infinity);
+                const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+                // 5 bulan paling kering = musim terbaik, ditampilkan sesuai urutan kalender
+                const musimTerbaik = rataPerBulan
+                    .map((curah, idx) => ({ idx, curah }))
+                    .sort((a, b) => a.curah - b.curah)
+                    .slice(0, 5)
+                    .sort((a, b) => a.idx - b.idx);
+
+                const wrap = document.getElementById('musimMonths');
+                if (wrap && musimTerbaik.length) {
+                    wrap.innerHTML = musimTerbaik.map(({ idx, curah }) => `
+                        <div class="musim-month-pill">
+                            <span class="m-icon">${curah < 3 ? '☀️' : '🌤'}</span>
+                            <span class="m-name">${namaBulan[idx]}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.warn('Gagal memuat data musim terbaik, memakai nilai default:', err);
+            }
+        }
+
+        loadKondisiCuaca();
+        loadMusimTerbaik();
+    })();
 
     rebuildPhotos();
 
