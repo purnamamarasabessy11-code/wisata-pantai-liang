@@ -1172,7 +1172,6 @@ kbd {
             <div class="galeri-filter">
                 <button class="filter-btn active" data-filter="semua">🌴 Semua</button>
                 <button class="filter-btn" data-filter="pantai">🏖 Pantai</button>
-                <button class="filter-btn" data-filter="perahu">⛵ Perahu</button>
             </div>
         </div>
     </div>
