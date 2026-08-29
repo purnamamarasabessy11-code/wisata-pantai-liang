@@ -46,7 +46,7 @@
     }
     .nav-brand { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); text-decoration: none; }
     .nav-brand strong { color: var(--ocean); }
-    .nav-links { display: flex; gap: 0.3rem; }
+    .nav-links { display: flex; gap: 0.3rem; list-style: none; }
     .nav-links a { color: var(--ink-soft); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.45rem 0.9rem; border-radius: 50px; transition: all 0.2s; }
     .nav-links a:hover { background: var(--sky); color: var(--ocean); }
     .nav-links a.active { background: var(--sky); color: var(--ocean); font-weight: 600; }
@@ -181,10 +181,10 @@
 <nav class="nav">
     <a href="{{ route('profil') }}" class="nav-brand">🏖 Pantai <strong>Liang</strong></a>
     <div class="nav-links">
-         <li><a href="/" class="nav-link">Beranda</a></li>
-            <li><a href="/panduan_rute" class="nav-link active">🗺 Panduan Rute</a></li>
-            <li><a href="/fasilitas"   class="nav-link">Fasilitas</a></li>
-        <a href="{{ route('galeri') }}" class="active">Galeri</a>
+        <a href="/" class="nav-link">Beranda</a>
+        <a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a>
+        <a href="/fasilitas" class="nav-link">Fasilitas</a>
+        <a href="{{ route('galeri') }}" class="nav-link active">Galeri</a>
     </div>
 </nav>
 
