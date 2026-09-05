@@ -983,10 +983,10 @@ kbd {
                 <span></span>
             </button>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#tentang"      class="nav-link">Beranda</a></li>
-                <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
-                <li><a href="/fasilitas"    class="nav-link">Fasilitas</a></li>
-                <li><a href="{{ route('galeri') }}" class="nav-link special">Galeri</a></li>
+                <li><a href="#Beranda" class="nav-link">Home</a></li>
+                <li><a href="/panduan_rute"class="nav-link">🗺 Panduan Rute</a></li>
+                <li><a href="/fasilitas" class="nav-link">Fasilitas</a></li>
+                <li><a href="{{('galeri') }}" class="nav-link special">Galeri</a></li>
             </ul>
         </div>
     </div>
@@ -1093,7 +1093,7 @@ kbd {
             <div class="sejarah-box">
                 <div class="sejarah-label">📜 Sejarah Singkat</div>
                 <p class="sejarah-intro">
-                    Nama <strong>Hunimua</strong> berasal dari bahasa daerah setempat dan melekat erat pada identitas Desa Liang, sebuah negeri tua yang dihuni masyarakat Muslim dan tergabung dalam konfederasi adat <em>Uli Sailesi</em> sejak masa lampau. Pantai ini telah lama menjadi bagian dari kehidupan sehari-hari masyarakat Liang — digunakan sebagai jalur penyeberangan dan tambatan perahu nelayan tradisional sebelum akhirnya dikenal luas sebagai destinasi wisata.
+                    Nama <strong>Hunimua</strong> berasal dari bahasa daerah setempat dan melekat erat pada identitas Desa Liang, sebuah negeri tua yang dihuni masyarakat Muslim dan tergabung dalam konfederasi adat Uli Sailesi sejak masa lampau. Pantai ini telah lama menjadi bagian dari kehidupan sehari-hari masyarakat Liang digunakan sebagai jalur penyeberangan dan tambatan perahu nelayan tradisional sebelum akhirnya dikenal luas sebagai destinasi wisata.
                 </p>
                 <div class="sejarah-timeline">
                     <div class="st-item">
@@ -1102,7 +1102,7 @@ kbd {
                     </div>
                     <div class="st-item">
                         <div class="st-year">1990</div>
-                        <div class="st-desc">Dinobatkan oleh <strong>UNDP-PBB</strong> sebagai pantai terindah di Indonesia — penghargaan bergengsi yang mengharumkan nama Maluku di kancah internasional.</div>
+                        <div class="st-desc">Dinobatkan oleh <strong>UNDP-PBB</strong> sebagai pantai terindah di Indonesia penghargaan bergengsi yang mengharumkan nama Maluku di kancah internasional.</div>
                     </div>
                     <div class="st-item">
                         <div class="st-year">Kini</div>

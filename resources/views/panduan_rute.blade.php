@@ -86,7 +86,7 @@ body {
 }
 .hero-img {
     position: absolute; inset: 0;
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=85') center/cover no-repeat;
+    background: url('{{ asset('liang3.jpeg') }}') center/cover no-repeat;
 }
 .hero-overlay {
     position: absolute; inset: 0;
@@ -462,6 +462,21 @@ body {
                     </a>
                 </div>
             </div>
+             <!-- Tips box -->
+            <div class="tip-box" style="margin-top: 35px">
+                <div class="tip-header">
+                    <span class="tip-icon">💡</span> Tips Perjalanan
+                </div>
+                <div class="tip-list">
+                    <div class="tip-item">Berangkat pagi hari (sebelum jam 09.00) untuk menghindari kemacetan dan mendapat spot terbaik.</div>
+                    <div class="tip-item">Aktifkan Google Maps sebelum berangkat untuk petunjuk arah real-time.</div>
+                    <div class="tip-item">Puskesmas Liang (Pertolongan Pertama)Jarak:3 - 4 km (5 - 10 menit berkendara).Fasilitas kesehatan terdekat untuk menangani luka ringan atau insiden kecil di pantai.</div>
+                    <div class="tip-item">RSUD Tulehu (Rumah Sakit Rujukan)Jarak:14 - 16 km (25 - 30 menit berkendara).Rumah sakit besar terdekat untuk penanganan medis darurat tingkat lanjut.</div>
+                    <div class="tip-item">ATM Terdekat (Kawasan Tulehu)Jarak:14 - 15 km (25 menit berkendara).Pusat mesin ATM terakhir sebelum Anda masuk ke wilayah Desa Liang.</div>
+                    <div class="tip-item">SPBU Tulehu (Bahan Bakar)Jarak:15 - 16 km (25 - 30 menit berkendara).Pom bensin resmi terakhir dari arah kota sebelum menuju pantai.</div>
+
+                </div>
+            </div>
         </div>
 
         <!-- SIDEBAR -->
@@ -478,7 +493,7 @@ body {
                             <div class="step-num">1</div>
                         </div>
                         <div class="step-body">
-                            <div class="step-place">Terminal Mardika, Ambon</div>
+                            <div class="step-place">Kota Ambon</div>
                             <div class="step-desc">Titik keberangkatan utama dari pusat kota Ambon. Tersedia angkutan umum menuju arah Salahutu.</div>
                             <div class="step-tag">🚌 Titik Awal</div>
                         </div>
@@ -541,24 +556,13 @@ body {
                         <div class="t-icon">🚌</div>
                         <div class="t-info">
                             <div class="t-name">Angkutan Umum</div>
-                            <div class="t-desc">Dari Terminal Mardika · turun di pertigaan Liang</div>
+                            <div class="t-desc">Dari Kota Ambon· turun di Pelabuhan Hunimua </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tips box -->
-            <div class="tip-box">
-                <div class="tip-header">
-                    <span class="tip-icon">💡</span> Tips Perjalanan
-                </div>
-                <div class="tip-list">
-                    <div class="tip-item">Berangkat pagi hari (sebelum jam 09.00) untuk menghindari kemacetan dan mendapat spot terbaik.</div>
-                    <div class="tip-item">Isi bahan bakar di SPBU Kota Ambon — tidak ada pom bensin di dekat lokasi.</div>
-                    <div class="tip-item">Bawa uang tunai secukupnya karena belum ada mesin ATM di kawasan pantai.</div>
-                    <div class="tip-item">Aktifkan Google Maps atau Waze sebelum berangkat untuk petunjuk arah real-time.</div>
-                </div>
-            </div>
+
 
         </div><!-- /sidebar -->
     </div><!-- /rute-layout -->

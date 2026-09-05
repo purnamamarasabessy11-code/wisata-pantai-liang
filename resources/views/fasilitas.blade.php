@@ -94,7 +94,7 @@ body {
 }
 .hero-img {
     position: absolute; inset: 0;
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=85') center/cover no-repeat;
+    background: url('{{ asset('n.jpeg') }}') center/cover no-repeat;
 }
 .hero-overlay {
     position: absolute; inset: 0;
@@ -324,6 +324,74 @@ body {
 
 /* ── FADE IN ── */
 @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+/* ── MODAL DETAIL FASILITAS ── */
+.card { cursor: pointer; }
+
+.fm-backdrop {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(10,30,45,0.55);
+    backdrop-filter: blur(6px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.fm-backdrop.open { opacity: 1; pointer-events: all; }
+
+.fasilitas-modal {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -46%);
+    z-index: 2001;
+    width: 92%; max-width: 480px;
+    background: var(--white);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(10,40,60,0.25);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.28s cubic-bezier(.22,1,.36,1);
+}
+.fasilitas-modal.open {
+    opacity: 1; pointer-events: all;
+    transform: translate(-50%, -50%);
+}
+
+.fm-close {
+    position: absolute; top: 0.8rem; right: 0.8rem; z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.85); border: none;
+    font-size: 1rem; color: var(--ink); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.fm-close:hover { background: var(--white); }
+
+.fm-image-wrap {
+    position: relative; width: 100%; height: 240px;
+    background: var(--sky);
+}
+.fm-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fm-image-placeholder {
+    width: 100%; height: 100%;
+    display: none; align-items: center; justify-content: center;
+    font-size: 4rem; background: var(--sky);
+}
+
+.fm-body { padding: 1.4rem 1.6rem 1.6rem; }
+.fm-badge {
+    display: inline-flex; padding: 0.25rem 0.8rem; border-radius: 50px;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--sky); color: var(--ocean-deep); margin-bottom: 0.7rem;
+}
+.fm-title { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+.fm-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text-mid); }
+.fm-price {
+    display: inline-block; margin-top: 1rem;
+    font-family: 'Fraunces', serif; font-size: 1.15rem; color: var(--ocean-dark);
+}
+.fm-price small { font-size: 0.75rem; color: var(--text-muted); }
+
+@media (max-width: 600px) {
+    .fasilitas-modal { width: 94%; }
+    .fm-image-wrap { height: 190px; }
+}
 </style>
 </head>
 <body>
@@ -335,7 +403,7 @@ body {
         <ul class="nav-menu">
             <li><a href="/"class="nav-link">Beranda</a></li>
             <li><a href="/panduan_rute" class="nav-link">🗺 Panduan Rute</a></li>
-            <li><a href="{{ route('fasilitas') }}" class="nav-link active">Fasilitas</a></li>
+            <li><a href="{{ route('fasilitas') }}" class="nav-link active">tampilan</a></li>
             <li><a href="/#galeri" class="nav-link">Galeri</a></li>
         </ul>
     </div>
@@ -413,23 +481,32 @@ body {
     <!-- Cards (looping dari database) -->
     <div class="grid" id="cardGrid">
 
-        @forelse($fasilitas as $item)
-            <div class="card type-{{ $item->tipe }}" data-type="{{ $item->tipe }}">
-                <div class="card-icon">{{ $item->icon }}</div>
-                <div class="card-badge">{{ $item->badge_label }}</div>
-                <div class="card-title">{{ $item->nama }}</div>
-                <div class="card-desc">{{ $item->deskripsi }}</div>
-                @if($item->harga)
-                    <div class="card-price">
-                        {{ $item->harga_format }} <small>{{ $item->satuan_harga }}</small>
-                    </div>
-                @endif
+       @forelse($fasilitas as $item)
+    <div class="card type-{{ $item->tipe }}"
+         data-type="{{ $item->tipe }}"
+         data-nama="{{ $item->nama }}"
+         data-deskripsi="{{ $item->deskripsi }}"
+         data-badge="{{ $item->badge_label }}"
+         data-icon="{{ $item->icon }}"
+         data-gambar="{{ $item->gambar_url }}"
+         data-harga="{{ $item->harga_format }}"
+         data-satuan="{{ $item->satuan_harga }}"
+         onclick="openFasilitasModal(this)">
+        <div class="card-icon">{{ $item->icon }}</div>
+        <div class="card-badge">{{ $item->badge_label }}</div>
+        <div class="card-title">{{ $item->nama }}</div>
+        <div class="card-desc">{{ $item->deskripsi }}</div>
+        @if($item->harga)
+            <div class="card-price">
+                {{ $item->harga_format }} <small>{{ $item->satuan_harga }}</small>
             </div>
-        @empty
-            <p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">
-                Belum ada data fasilitas.
-            </p>
-        @endforelse
+        @endif
+    </div>
+@empty
+    <p style="grid-column:1/-1; text-align:center; color:var(--text-muted);">
+        Belum ada data fasilitas.
+    </p>
+@endforelse
 
         <!-- Empty state untuk hasil filter JS -->
         <div class="empty-state" id="emptyState">
@@ -441,6 +518,21 @@ body {
 </div>
 
 <!-- BACK -->
+<!-- MODAL DETAIL FASILITAS -->
+<div class="fm-backdrop" id="fmBackdrop" onclick="closeFasilitasModal()"></div>
+<div class="fasilitas-modal" id="fasilitasModal">
+    <button class="fm-close" onclick="closeFasilitasModal()">✕</button>
+    <div class="fm-image-wrap">
+        <img src="" alt="" id="fmImage" style="display:none;">
+        <div class="fm-image-placeholder" id="fmImagePlaceholder"></div>
+    </div>
+    <div class="fm-body">
+        <div class="fm-badge" id="fmBadge"></div>
+        <h3 class="fm-title" id="fmTitle"></h3>
+        <p class="fm-desc" id="fmDesc"></p>
+        <div class="fm-price" id="fmPrice"></div>
+    </div>
+</div>
 <a href="/" class="back-btn">← Kembali ke Beranda</a>
 
 <script>
@@ -475,6 +567,54 @@ function filterCard(type, btn) {
     });
     document.getElementById('emptyState').classList.toggle('show', vis === 0);
 }
+function openFasilitasModal(card) {
+    const nama      = card.dataset.nama;
+    const deskripsi = card.dataset.deskripsi;
+    const badge     = card.dataset.badge;
+    const icon      = card.dataset.icon;
+    const gambar    = card.dataset.gambar;
+    const harga     = card.dataset.harga;
+    const satuan    = card.dataset.satuan;
+
+    document.getElementById('fmTitle').textContent = nama;
+    document.getElementById('fmDesc').textContent  = deskripsi;
+    document.getElementById('fmBadge').textContent = badge;
+
+    const img         = document.getElementById('fmImage');
+    const placeholder = document.getElementById('fmImagePlaceholder');
+
+    if (gambar) {
+        img.src = gambar;
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        img.style.display = 'none';
+        placeholder.style.display = 'flex';
+        placeholder.textContent = icon || '🏖️';
+    }
+
+    const priceEl = document.getElementById('fmPrice');
+    if (harga) {
+        priceEl.style.display = 'inline-block';
+        priceEl.innerHTML = harga + ' <small>' + (satuan || '') + '</small>';
+    } else {
+        priceEl.style.display = 'none';
+    }
+
+    document.getElementById('fmBackdrop').classList.add('open');
+    document.getElementById('fasilitasModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFasilitasModal() {
+    document.getElementById('fmBackdrop').classList.remove('open');
+    document.getElementById('fasilitasModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeFasilitasModal();
+});
 </script>
 
 </body>

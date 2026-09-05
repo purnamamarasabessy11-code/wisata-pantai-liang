@@ -12,7 +12,8 @@
 
     <div class="card">
         <form method="POST"
-              action="{{ $fasilitas->exists ? route('admin.fasilitas.update', $fasilitas) : route('admin.fasilitas.store') }}">
+            action="{{ $fasilitas->exists ? route('admin.fasilitas.update', $fasilitas) : route('admin.fasilitas.store') }}"
+            enctype="multipart/form-data">
             @csrf
             @if ($fasilitas->exists) @method('PUT') @endif
 
@@ -25,6 +26,16 @@
                 <div class="field">
                     <label for="icon">Icon (emoji)</label>
                     <input type="text" id="icon" name="icon" value="{{ old('icon', $fasilitas->icon) }}" placeholder="🅿️">
+                </div>
+
+                <div class="field full">
+                    <label for="gambar">Gambar Fasilitas {{ $fasilitas->exists ? '(kosongkan jika tidak diganti)' : '' }}</label>
+                    <input type="file" id="gambar" name="gambar" accept="image/*">
+                    @if ($fasilitas->exists && $fasilitas->gambar)
+                        <div style="margin-top:0.6rem;">
+                            <img src="{{ $fasilitas->gambar_url }}" alt="{{ $fasilitas->nama }}" style="width:140px; height:100px; object-fit:cover; border-radius:10px;">
+                        </div>
+                    @endif
                 </div>
 
                 <div class="field full">

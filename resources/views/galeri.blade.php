@@ -54,7 +54,8 @@
 
     /* ── HERO ── */
     .hero { position: relative; height: 420px; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=85') center/cover no-repeat; }
+    .hero-bg { position: absolute; inset: 0; background: url('{{ asset('pantai 000.jpeg') }}') center/cover no-repeat;
+}
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom,rgba(10,30,45,0.2) 0%,rgba(10,30,45,0.55) 60%,rgba(10,30,45,0.85) 100%); }
     .hero-ray  { position:absolute;top:0;left:15%;width:2px;height:100%;background:linear-gradient(to bottom,rgba(255,255,255,0.14),transparent);transform:rotate(-6deg);animation:ray 5s ease-in-out infinite; }
     .hero-ray2 { position:absolute;top:0;left:30%;width:1px;height:100%;background:linear-gradient(to bottom,rgba(255,255,255,0.07),transparent);transform:rotate(-3deg);animation:ray 7s ease-in-out infinite reverse; }
@@ -227,7 +228,7 @@
       "pantai"      → foto pantai & laut
       "suasana"     → suasana alam, pepohonan
       "perahu"      → perahu nelayan
-      "taman"       → taman bermain
+      "Area Bermain" → Area Bermain
       "warung"      → warung makan
       "rumah-adat"  → rumah adat
     Semua huruf kecil, tanpa spasi di awal/akhir.
@@ -238,7 +239,7 @@
         <button class="f-btn"     data-cat="pantai"     onclick="doFilter(this)">🏖 Pantai</button>
         <button class="f-btn"     data-cat="suasana"    onclick="doFilter(this)">🌿 Suasana</button>
         <button class="f-btn"     data-cat="perahu"     onclick="doFilter(this)">⛵ Perahu</button>
-        <button class="f-btn"     data-cat="taman"      onclick="doFilter(this)">🎡 Taman Bermain</button>
+        <button class="f-btn"     data-cat="Taman"      onclick="doFilter(this)">🎡 Area Bermain</button>
         <button class="f-btn"     data-cat="warung"     onclick="doFilter(this)">🍽 Warung</button>
         <button class="f-btn"     data-cat="rumah-adat" onclick="doFilter(this)">🏠 Rumah Adat</button>
     </div>

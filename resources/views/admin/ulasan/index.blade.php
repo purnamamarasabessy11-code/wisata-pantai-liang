@@ -6,7 +6,7 @@
     <div class="page-header">
         <div>
             <h1>Ulasan Pengunjung</h1>
-            <p>{{ $items->total() }} ulasan masuk. Ulasan dikirim langsung oleh pengunjung dari halaman profil — admin hanya bisa memoderasi (hapus).</p>
+            <p>{{ $items->total() }} ulasan masuk. Ulasan dikirim langsung oleh pengunjung dari halaman profil admin hanya bisa memoderasi (hapus).</p>
         </div>
     </div>
 
